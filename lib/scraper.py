@@ -15,5 +15,3 @@ class Scraper:
             article_list.append(Article(link.text, link.attrs['href']))
 
         return article_list
-
-Scraper.get_slashdot_articles()
