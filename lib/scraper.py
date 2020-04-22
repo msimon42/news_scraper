@@ -4,11 +4,11 @@ from bs4 import BeautifulSoup
 class Scraper:
     @classmethod
     def get_slashdot_articles(cls):
-        uri = 'http://www.slashdot.org/popular'
-        r = requests.get(uri).content
+        url = 'http://www.slashdot.org'
+        r = requests.get(url).content
         soup = BeautifulSoup(r, 'html.parser')
-        links = soup.find_all('a')
-        for link in links:
-            print(f"{link.text}, {link.attrs}")
+        articles = soup.find_all('article')
+        for link in articles:
+            print(link)
 
 Scraper.get_slashdot_articles()
