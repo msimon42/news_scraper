@@ -7,8 +7,10 @@ class Scraper:
         url = 'http://www.slashdot.org'
         r = requests.get(url).content
         soup = BeautifulSoup(r, 'html.parser')
-        articles = soup.find_all('article')
-        for link in articles:
+        articles = soup.find_all(class_='story-title')
+        for article in articles:
+            link = article.find('a')
             print(link)
+            print('-------------')
 
 Scraper.get_slashdot_articles()
