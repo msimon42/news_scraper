@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from article import Article
 
 class Scraper:
     @classmethod
@@ -13,6 +14,6 @@ class Scraper:
             link = article.find('a')
             article_list.append(Article(link.text, link.attrs['href']))
 
-        return article_list    
+        return article_list
 
 Scraper.get_slashdot_articles()
