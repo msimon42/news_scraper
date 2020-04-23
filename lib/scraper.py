@@ -24,7 +24,7 @@ class Scraper:
         articles = soup.find_all(class_='index-article-link')
         article_list = []
         for article in articles:
-            link = article.find('a')
+            article_list.append(Article(article.text, f"{url}{article.attrs['href']}"))
 
 
 Scraper.get_devto_articles()
