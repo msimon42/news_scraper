@@ -15,3 +15,16 @@ class Scraper:
             article_list.append(Article(link.text, link.attrs['href']))
 
         return article_list
+
+    @classmethod
+    def get_devto_articles(cls):
+        url = 'http://dev.to'
+        r = requests.get(url).content
+        soup = BeautifulSoup(r, 'html.parser')
+        articles = soup.find_all(class_='index-article-link')
+        article_list = []
+        for article in articles:
+            link = article.find('a')
+
+
+Scraper.get_devto_articles()
