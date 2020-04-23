@@ -25,6 +25,3 @@ class Scraper:
         article_list = []
         for article in articles:
             article_list.append(Article(article.text, f"{url}{article.attrs['href']}"))
-
-
-Scraper.get_devto_articles()
