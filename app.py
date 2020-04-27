@@ -25,7 +25,7 @@ def create_app(test_config=None):
     def root():
         return "You're connected to news_scraper!"
 
-    @app.route('/slashdot')
+    @app.route('/request-articles')
     def slashdot_articles():
         articles = Scraper.get_slashdot_articles()
         return ArticleSerializer.render_json(articles)
