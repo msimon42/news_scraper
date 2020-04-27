@@ -27,7 +27,8 @@ def create_app(test_config=None):
 
     @app.route('/request-articles')
     def request_articles():
-        articles = Scraper.get_slashdot_articles()
+        data = request.json
+        articles = Scraper.get_articles(data['url'], data['css-tag'])
         return ArticleSerializer.render_json(articles)
 
     return app
