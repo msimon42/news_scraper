@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request
+from flask_restful import Resource, Api
 from news_scraper.lib.scraper import Scraper
 from news_scraper.lib.article_serializer import ArticleSerializer
 from dotenv import load_dotenv
