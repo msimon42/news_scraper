@@ -1,4 +1,6 @@
 from flask import Flask
+from flask import request
+from flask_restful import Resource, Api
 from news_scraper.lib.scraper import Scraper
 from news_scraper.lib.article_serializer import ArticleSerializer
 from dotenv import load_dotenv
@@ -25,9 +27,10 @@ def create_app(test_config=None):
     def root():
         return "You're connected to news_scraper!"
 
-    @app.route('/slashdot')
-    def slashdot_articles():
-        articles = Scraper.get_slashdot_articles()
+    @app.route('/request-articles', methods=['POST'])
+    def request_articles():
+        data = request.json
+        articles = Scraper.get_articles(data['url'], data['css-tag'])
         return ArticleSerializer.render_json(articles)
 
     return app
