@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from article import Article
+from .article import Article
 
 class Scraper:
     @classmethod
