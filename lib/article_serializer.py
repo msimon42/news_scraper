@@ -1,10 +1,10 @@
 from flask import jsonify
-
+from article import Article
 
 class ArticleSerializer:
     @classmethod
     def render_json(cls, articles):
-        modded_articles = map(cls.convert_article_to_dict(), articles)
+        modded_articles = list(map(cls.convert_article_to_dict, articles))
         return jsonify({'Data': modded_articles})
 
     @classmethod
