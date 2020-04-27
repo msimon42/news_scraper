@@ -1,4 +1,6 @@
 from flask import Flask
+from lib.scraper import Scraper
+from lib.article_serializer import ArticleSerializer 
 from dotenv import load_dotenv
 import os
 
@@ -25,4 +27,4 @@ def create_app(test_config=None):
 
     return app
 
-app = create_app()    
+app = create_app()
