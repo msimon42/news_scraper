@@ -1,8 +1,8 @@
 from flask import Flask
 from flask import request
 from flask_restful import Resource, Api
-from news_scraper.lib.scraper import Scraper
-from news_scraper.lib.article_serializer import ArticleSerializer
+from .lib.scraper import Scraper
+from .lib.article_serializer import ArticleSerializer
 from dotenv import load_dotenv
 import os
 
@@ -16,7 +16,6 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL"),
         SQLALCHEMY_TRACK_MODIFICATIONS = False,
-        PYTHONPATH='news_scraper/'
     )
 
     try:
