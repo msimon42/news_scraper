@@ -1,1 +1,1 @@
-web: gunicorn --chdir news_scraper app:app
+web: gunicorn app:app
