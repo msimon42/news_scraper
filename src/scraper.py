@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
-from .article import Article
-from .link_processor import LinkProcessor
+from src import article
+from src import link_processor
 
 class Scraper:
     @classmethod

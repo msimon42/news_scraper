@@ -1,12 +1,9 @@
-from flask import Flask
-from flask import request
+from flask import Flask, request
 from flask_restful import Resource, Api
-from news_scraper.lib.scraper import Scraper
-from news_scraper.lib.article_serializer import ArticleSerializer
+from src.scraper import Scraper
+from src.article_serializer import ArticleSerializer
 from dotenv import load_dotenv
 import os
-
-
 
 
 def create_app(test_config=None):
@@ -36,3 +33,5 @@ def create_app(test_config=None):
     return app
 
 app = create_app()
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')
