@@ -19,6 +19,8 @@ class Link(db.Model):
     url = db.Column(db.String)
     css_tag = db.Column(db.String)
 
+    subscribed_users = db.relationship('UserSubscription', backref='link')
+
     def __repr__():
         'Link %r' % self.url
 
