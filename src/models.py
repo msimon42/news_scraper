@@ -21,6 +21,7 @@ class Link(db.Model):
     css_tag = db.Column(db.String)
 
     subscribed_users = db.relationship('UserSubscription', backref='link')
+    articles = db.relationship('Article', backref='link')
 
     def __repr__():
         'Link %r' % self.url
@@ -41,6 +42,7 @@ class Article(db.Model):
     __tablename__ = 'articles'
 
     id = db.Column(db.Integer, primary_key=True)
+    link_id = db.Column(db.Integer, db.ForeignKey('links.id'))
     url = db.Column(db.String)
     headline = db.Column(db.String)
 
