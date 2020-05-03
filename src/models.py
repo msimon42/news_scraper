@@ -7,3 +7,6 @@ class User(db.Model):
     email = db.Column(db.String)
 
     subscribed_links = db.relationship('Link', backref='user')
+
+    def __repr__():
+        'User %r' % self.email
