@@ -43,4 +43,15 @@ class Article(db.Model):
     url = db.Column(db.String)
     headline = db.Column(db.String)
 
-    recipients = db.relationship('SentArticle', backref='article')     
+    recipients = db.relationship('SentArticle', backref='article')
+
+
+class SentArticle(db.Model):
+    __tablename__ = 'sent_articles'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
+
+    def __repr__():
+        'SentArticle, %r' % self.id
