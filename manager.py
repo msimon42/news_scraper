@@ -16,3 +16,5 @@ def make_shell_context():
                 UserSubscription=UserSubscription,
                 Article=Article,
                 SentArticle=SentArticle)
+
+manager.add_command('shell', Shell(make_context=make_shell_context))
