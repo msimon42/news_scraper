@@ -45,6 +45,9 @@ class Article(db.Model):
 
     recipients = db.relationship('SentArticle', backref='article')
 
+    def __repr__():
+        'Article %r' % self.headline
+
 
 class SentArticle(db.Model):
     __tablename__ = 'sent_articles'
