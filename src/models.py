@@ -20,4 +20,15 @@ class Link(db.Model):
     css_tag = db.Column(db.String)
 
     def __repr__():
-        'Link %r' % self.url   
+        'Link %r' % self.url
+
+
+class UserSubscription(db.Model):
+    __tablename__ = 'user_subscriptions'
+
+    id = db.Column(db.Integer, primary_key=True)
+    link_id = db.Column(db.Integer, db.ForeignKey('links.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    def __repr__():
+        'UserSubscription %r' % self.id
