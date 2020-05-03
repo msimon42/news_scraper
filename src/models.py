@@ -34,3 +34,13 @@ class UserSubscription(db.Model):
 
     def __repr__():
         'UserSubscription %r' % self.id
+
+
+class Article(db.Model):
+    __tablename__ = 'articles'
+
+    id = db.Column(db.Integer, primary_key=True)
+    url = db.Column(db.String)
+    headline = db.Column(db.String)
+
+    recipients = db.relationship('SentArticle', backref='article')     
