@@ -1,5 +1,5 @@
 from flask import jsonify
-from src import article
+from . import article
 
 class ArticleSerializer:
     @classmethod

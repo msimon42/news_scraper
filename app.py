@@ -1,7 +1,8 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
-from src.scraper import Scraper
-from src.article_serializer import ArticleSerializer
+from flask_sqlalchemy import SQLAlchemy
+from src.lib.scraper import Scraper
+from src.lib.article_serializer import ArticleSerializer
 from dotenv import load_dotenv
 import os
 
@@ -33,5 +34,9 @@ def create_app(test_config=None):
     return app
 
 app = create_app()
+db = SQLAlchemy(app)
+from src.models import *
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
