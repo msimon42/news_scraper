@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 from src.lib.scraper import Scraper
