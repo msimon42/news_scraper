@@ -23,7 +23,7 @@ def create_app(test_config=None):
 
     @app.route('/')
     def root():
-        return "You're connected to news_scraper!"
+        return render_template('landing.html')
 
     @app.route('/api/request-articles', methods=['POST'])
     def request_articles():
