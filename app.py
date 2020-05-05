@@ -25,7 +25,7 @@ def create_app(test_config=None):
     def root():
         return "You're connected to news_scraper!"
 
-    @app.route('/request-articles', methods=['POST'])
+    @app.route('/api/request-articles', methods=['POST'])
     def request_articles():
         data = request.json
         articles = Scraper.get_articles(data['url'], data['css-tag'])
