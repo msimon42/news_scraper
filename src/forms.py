@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField
+from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, Email
 
 class SubscriptionForm(FlaskForm):
@@ -8,3 +8,5 @@ class SubscriptionForm(FlaskForm):
 
     links = StringField('Links',
                                 validators=[DataRequired()])
+
+    submit = SubmitField('Subscribe')
