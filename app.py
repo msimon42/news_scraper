@@ -26,6 +26,11 @@ def create_app(test_config=None):
     def root():
         return render_template('landing.html')
 
+    @app.route('/subscribe')
+    def subscribe():
+        form = SubscriptionForm()
+        return render_template('subscribe.html', title='Subscribe', form=form)
+
     @app.route('/api/request-articles', methods=['POST'])
     def request_articles():
         data = request.json
