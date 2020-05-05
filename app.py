@@ -30,6 +30,7 @@ def create_app(test_config=None):
     def subscribe():
         form = SubscriptionForm()
         if form.validate_on_submit():
+            flash('You are subscribed to news scraper!')
             return redirect('/')
 
         return render_template('subscribe.html', title='Subscribe', form=form)
