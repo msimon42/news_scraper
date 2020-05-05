@@ -5,3 +5,6 @@ from wtforms.validators import DataRequired, Email
 class SubscriptionForm(FlaskForm):
     email = StringField('Email',
                             validators=[DataRequired(), Email()])
+
+    links = StringField('Links',
+                                validators=[DataRequired()])
