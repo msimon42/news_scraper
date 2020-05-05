@@ -29,6 +29,9 @@ def create_app(test_config=None):
     @app.route('/subscribe', methods=['GET', 'POST'])
     def subscribe():
         form = SubscriptionForm()
+        if form.validate_on_submit():
+            return redirect('/')
+            
         return render_template('subscribe.html', title='Subscribe', form=form)
 
     @app.route('/api/request-articles', methods=['POST'])
