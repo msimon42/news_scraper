@@ -98,3 +98,7 @@ body {
   .button-line:hover {
     opacity: 1;
   }
+
+  #submit-button {
+    font-size: 0.5em;
+  }
