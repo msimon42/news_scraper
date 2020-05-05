@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 from src.lib.scraper import Scraper
@@ -23,9 +23,9 @@ def create_app(test_config=None):
 
     @app.route('/')
     def root():
-        return "You're connected to news_scraper!"
+        return render_template('landing.html')
 
-    @app.route('/request-articles', methods=['POST'])
+    @app.route('/api/request-articles', methods=['POST'])
     def request_articles():
         data = request.json
         articles = Scraper.get_articles(data['url'], data['css-tag'])
