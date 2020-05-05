@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect, flash
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 from src.lib.scraper import Scraper
@@ -31,7 +31,7 @@ def create_app(test_config=None):
         form = SubscriptionForm()
         if form.validate_on_submit():
             return redirect('/')
-            
+
         return render_template('subscribe.html', title='Subscribe', form=form)
 
     @app.route('/api/request-articles', methods=['POST'])
