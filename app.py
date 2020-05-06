@@ -1,8 +1,9 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, flash
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 from src.lib.scraper import Scraper
 from src.lib.article_serializer import ArticleSerializer
+from src.forms import *
 from dotenv import load_dotenv
 import os
 
@@ -11,7 +12,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config = True)
 
     app.config.from_mapping(
-        SECRET_KEY='dev',
+        SECRET_KEY=os.getenv('SECRET_KEY'),
         SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL"),
         SQLALCHEMY_TRACK_MODIFICATIONS = False,
     )
@@ -24,6 +25,15 @@ def create_app(test_config=None):
     @app.route('/')
     def root():
         return render_template('landing.html')
+
+    @app.route('/subscribe', methods=['GET', 'POST'])
+    def subscribe():
+        form = SubscriptionForm()
+        if form.validate_on_submit():
+            flash('You are subscribed to news scraper!')
+            return redirect('/')
+
+        return render_template('subscribe.html', title='Subscribe', form=form)
 
     @app.route('/api/request-articles', methods=['POST'])
     def request_articles():
