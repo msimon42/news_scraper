@@ -9,7 +9,7 @@ class User(db.Model):
     subscribed_links = db.relationship('UserSubscription', backref='user')
     recieved_articles = db.relationship('SentArticle', backref='user')
 
-    def __repr__():
+    def __repr__(self):
         'User %r' % self.email
 
 
@@ -23,7 +23,7 @@ class Link(db.Model):
     subscribed_users = db.relationship('UserSubscription', backref='link')
     articles = db.relationship('Article', backref='link')
 
-    def __repr__():
+    def __repr__(self):
         'Link %r' % self.url
 
 
@@ -34,7 +34,7 @@ class UserSubscription(db.Model):
     link_id = db.Column(db.Integer, db.ForeignKey('links.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    def __repr__():
+    def __repr__(self):
         'UserSubscription %r' % self.id
 
 
@@ -48,7 +48,7 @@ class Article(db.Model):
 
     recipients = db.relationship('SentArticle', backref='article')
 
-    def __repr__():
+    def __repr__(self):
         'Article %r' % self.headline
 
 
@@ -59,5 +59,5 @@ class SentArticle(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
 
-    def __repr__():
+    def __repr__(self):
         'SentArticle, %r' % self.id

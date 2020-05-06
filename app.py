@@ -30,6 +30,28 @@ def create_app(test_config=None):
     def subscribe():
         form = SubscriptionForm()
         if form.validate_on_submit():
+            email_address = request.form['email']
+            links = request.form['links'].split(',')
+
+            new_user = User(email=email_address)
+            db.session.add(new_user)
+            db.session.commit()
+
+            for link in links:
+                link_ = Link.query.filter_by(url=link).first()
+                if link_ is None:
+                    new_link = Link(url=link, css_tag='test')
+                    db.session.add(new_link)
+                    db.session.commit()
+                    us = UserSubscription(link_id=new_link.id, user_id=new_user.id)
+                    db.session.add(us)
+                    db.session.commit()
+                    continue
+
+                us = UserSubscription(link_id=link_.id, user_id=new_user.id)
+                db.session.add(us)
+                db.session.commit()
+
             flash('You are subscribed to news scraper!')
             return redirect('/')
 
