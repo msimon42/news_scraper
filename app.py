@@ -32,6 +32,11 @@ def create_app(test_config=None):
         if form.validate_on_submit():
             email_address = request.forms['email']
             links = request.forms['links'].split(',')
+
+            new_user = User(email=email_address)
+            db.session.add(new_user)
+            db.session.commit()
+            
             flash('You are subscribed to news scraper!')
             return redirect('/')
 
