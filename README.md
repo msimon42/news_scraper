@@ -1,4 +1,4 @@
 # news_scraper
-Link to production server: http://news-scraper.us-west-1.elasticbeanstalk.com/
+### Link to production server: http://news-scraper.us-west-1.elasticbeanstalk.com/
 
-More to come. Stay tuned!
+News Scraper is an app that allows users to provide an email address and links to their favorite blogs or news sites, and sends an email containing articles from those sites every day. There is also an API endpoint that allows anyone to request article data in JSON.
