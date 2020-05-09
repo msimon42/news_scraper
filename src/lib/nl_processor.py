@@ -9,22 +9,29 @@ class NLProcessor:
     @classmethod
     def is_sentence(cls, phrase):
         nlp = cls()
-        required_pos = ['VERB', 'NOUN', ]
         parts_of_speech = nlp.find_parts_of_speech(phrase)
 
-        breakpoint()
+        
 
     def find_parts_of_speech(self, phrase):
-        tokenized_phrase = nlp(phrase)
-        return token_pos = [ token.pos_ for token in tokenized_phrase ]
+        tokenized_phrase = self.nlp(phrase)
+        token_pos = [ token.pos_ for token in tokenized_phrase ]
+        return token_pos
 
     def find_syntactic_relation(self, phrase):
-        tokenized_phrase = nlp(phrase)
-        return token_sr = [ token.dep_ for token in tokenized_phrase ]
+        tokenized_phrase = self.nlp(phrase)
+        token_sr = [ token.dep_ for token in tokenized_phrase ]
+        return token_sr
+
+    def required_pos(self):
+        return ['NOUN', 'VERB', 'DET']
+
+    def required_deps(self):
+        return ['ROOT', 'nsubj', 'dobj']
 
 
 
 
 
 
-NLProcessor.is_sentence('The cat jumped over the moon.')
+# NLProcessor().find_syntactic_relation('15 free SVG illustration sets for your next project')
