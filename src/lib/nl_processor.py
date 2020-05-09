@@ -9,9 +9,10 @@ class NLProcessor:
     @classmethod
     def is_sentence(cls, phrase):
         nlp = cls()
-        parts_of_speech = set(nlp.find_parts_of_speech(phrase))
-        deps = set(nlp.required_deps(phrase))
+        pos = set(nlp.find_parts_of_speech(phrase))
+        deps = set(nlp.find_syntactic_relation(phrase))
 
+        return len(pos.intersection(nlp.required_pos())) >= 2 or len(deps.intersection(nlp.required_deps())) >= 2
 
 
     def find_parts_of_speech(self, phrase):
@@ -29,10 +30,3 @@ class NLProcessor:
 
     def required_deps(self):
         return {'ROOT', 'nsubj', 'dobj'}
-
-
-
-
-
-
-# NLProcessor().find_syntactic_relation('15 free SVG illustration sets for your next project')
