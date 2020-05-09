@@ -1,5 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
+from . import NLProcessor
+from collections import Counter
 
 class CssFinder:
     @classmethod
@@ -9,7 +11,7 @@ class CssFinder:
         link_elements = [link for link in soup('a') if NLProcessor.is_sentence(link.text)]
 
         for link in link_elements:
-            class_ = link.get('class') 
+            class_ = link.get('class')
 
 
 
