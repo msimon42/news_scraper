@@ -8,7 +8,7 @@ class NLProcessor:
 
     @classmethod
     def is_sentence(cls, phrase):
-        nlp = cls().nlp
+        nlp = cls()
         breakpoint()
 
     def find_parts_of_speech(self, phrase):
