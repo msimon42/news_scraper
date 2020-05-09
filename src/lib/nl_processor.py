@@ -9,9 +9,10 @@ class NLProcessor:
     @classmethod
     def is_sentence(cls, phrase):
         nlp = cls()
-        parts_of_speech = nlp.find_parts_of_speech(phrase)
+        parts_of_speech = set(nlp.find_parts_of_speech(phrase))
+        deps = set(nlp.required_deps(phrase))
 
-        
+
 
     def find_parts_of_speech(self, phrase):
         tokenized_phrase = self.nlp(phrase)
@@ -24,10 +25,10 @@ class NLProcessor:
         return token_sr
 
     def required_pos(self):
-        return ['NOUN', 'VERB', 'DET']
+        return {'NOUN', 'VERB', 'DET'}
 
     def required_deps(self):
-        return ['ROOT', 'nsubj', 'dobj']
+        return {'ROOT', 'nsubj', 'dobj'}
 
 
 
