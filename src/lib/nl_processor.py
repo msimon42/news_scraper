@@ -9,12 +9,12 @@ class NLProcessor:
     @classmethod
     def is_sentence(cls, phrase):
         nlp = cls().nlp
-        tokenized_phrase = nlp(phrase)
-
-        token_pos = [ token.pos_ for token in tokenized_phrase ]
         breakpoint()
 
-        
+    def find_parts_of_speech(self, phrase):
+        tokenized_phrase = nlp(phrase)
+        return token_pos = [ token.pos_ for token in tokenized_phrase ]
+
 
 
 
