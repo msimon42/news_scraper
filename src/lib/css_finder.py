@@ -9,7 +9,7 @@ class CssFinder:
         link_elements = [link for link in soup('a') if NLProcessor.is_sentence(link.text)]
 
         for link in link_elements:
-            class_ = link.get('class') if link.get('class') != None else
+            class_ = link.get('class') 
 
 
 
