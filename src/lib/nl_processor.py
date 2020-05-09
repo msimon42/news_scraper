@@ -9,11 +9,19 @@ class NLProcessor:
     @classmethod
     def is_sentence(cls, phrase):
         nlp = cls()
+        required_pos = ['VERB', 'NOUN', ]
+        parts_of_speech = nlp.find_parts_of_speech(phrase)
+
         breakpoint()
 
     def find_parts_of_speech(self, phrase):
         tokenized_phrase = nlp(phrase)
         return token_pos = [ token.pos_ for token in tokenized_phrase ]
+
+    def find_syntactic_relation(self, phrase):
+        tokenized_phrase = nlp(phrase)
+        return token_sr = [ token.dep_ for token in tokenized_phrase ]
+
 
 
 
