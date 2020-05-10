@@ -10,7 +10,7 @@ class NLProcessor:
         pos = set(self.find_parts_of_speech(phrase))
         deps = set(self.find_syntactic_relation(phrase))
 
-        return len(pos.intersection(nlp.required_pos())) >= 2 or len(deps.intersection(nlp.required_deps())) >= 2
+        return len(pos.intersection(self.required_pos())) >= 2 and len(deps.intersection(self.required_deps())) >= 2
 
 
     def find_parts_of_speech(self, phrase):
