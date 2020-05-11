@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from nl_processor import NLProcessor
+from .nl_processor import NLProcessor
 from collections import Counter
 
 class CssFinder:
