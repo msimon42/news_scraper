@@ -120,11 +120,14 @@ after { clear: both; }
 }
 
 #sub-form form {
+  font-family: 'Open Sans', sans-serif;
   margin: auto;
   padding: 22px 22px 22px 22px;
   width: 100%;
   border-radius: 5px;
   background: #282e33;
+  background-color: #363b41;
+  color: #a9a9a9;
   border-top: 3px solid #434a52;
   border-bottom: 3px solid #434a52;
 }
@@ -143,7 +146,7 @@ after { clear: both; }
 }
 
 #sub-form form input[type="text"] {
-  background-color: #3b4148;
+  background-color: #4e565e;
   border-radius: 0px 3px 3px 0px;
   color: #a9a9a9;
   margin-bottom: 10px;
