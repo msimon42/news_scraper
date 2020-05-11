@@ -50,7 +50,8 @@ def create_app(test_config=None):
                         db.session.add(us)
                         db.session.commit()
                     except:
-                        flash(f"Could not subscribe to {link}. It's possible that this site blocks web scraping.")    
+                        flash(f"Could not subscribe to {link}. It's possible that this site blocks web scraping.")
+
                     continue
 
                 us = UserSubscription(link_id=link_.id, user_id=new_user.id)
