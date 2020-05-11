@@ -2,9 +2,9 @@
   <link rel='stylesheet' href="/static/css/main.css" type='text/css'>
 </head>
 <div class="full-screen">
-  <form method='POST' action='' id='sub-form'>
+  <span id='sub-form'>
+  <form method='POST' action='' >
     {{ form.hidden_tag() }}
-    <fieldset>
       <legend>
         Enter your email address and any links you would like to follow separated by commas.
       </legend>
@@ -19,6 +19,6 @@
       <div id='button-div'>
         {{ form.submit(class_='button-line', id='submit-button') }}
       </div>
-    </fieldset>
   </form>
+  </span>
 </div>
