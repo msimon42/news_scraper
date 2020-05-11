@@ -1,5 +1,8 @@
 <!doctype html>
-<title>News Scraper</title>
+<head>
+  <link rel='stylesheet' href="/static/css/main.css" type='text/css'>
+  <title>News Scraper</title>
+</head>
 {% with messages = get_flashed_messages() %}
   {% if messages %}
     <ul>
@@ -10,4 +13,4 @@
   {% endif %}
 {% endwith %}
 
-{% block body %}{% endblock %}        
+{% block body %}{% endblock %}
