@@ -41,12 +41,16 @@ def create_app(test_config=None):
             for link in links:
                 link_ = Link.query.filter_by(url=link).first()
                 if link_ is None:
-                    new_link = Link(url=link, css_tag='test')
-                    db.session.add(new_link)
-                    db.session.commit()
-                    us = UserSubscription(link_id=new_link.id, user_id=new_user.id)
-                    db.session.add(us)
-                    db.session.commit()
+                    try:
+                        css_tag = CssFinder.find_tag(link)
+                        new_link = Link(url=link, css_tag=css_tag)
+                        db.session.add(new_link)
+                        db.session.commit()
+                        us = UserSubscription(link_id=new_link.id, user_id=new_user.id)
+                        db.session.add(us)
+                        db.session.commit()
+                    except:
+                        flash(f"Could not subscribe to {link}. It's possible that this site blocks web scraping.")    
                     continue
 
                 us = UserSubscription(link_id=link_.id, user_id=new_user.id)
