@@ -30,7 +30,7 @@ class Link(db.Model):
     articles = db.relationship('Article', backref='link')
 
     def get_todays_articles(self):
-        articles = Scraper.get_articles(self.url, self.css_tag)
+        articles = Scraper().get_articles(self.url, self.css_tag)
         for article in articles:
             new_article = Article(link_id=self.id,
                                   url=article.link,
