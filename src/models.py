@@ -1,7 +1,7 @@
 from app import db
 from datetime import datetime
-from lib.scraper import Scraper
-from lib.nl_processor import NLProcessor
+from src.lib.scraper import Scraper
+from src.lib.nl_processor import NLProcessor
 
 class User(db.Model):
     __tablename__ = 'users'
