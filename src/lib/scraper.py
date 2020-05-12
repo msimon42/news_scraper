@@ -4,8 +4,7 @@ from .article_obj import ArticleObj
 from .link_processor import LinkProcessor
 
 class Scraper:
-    @classmethod
-    def get_articles(cls, url, css_tag):
+    def get_articles(self, url, css_tag):
         r = requests.get(url).content
         soup = BeautifulSoup(r, 'html.parser')
         articles = soup.find_all(class_=css_tag)
@@ -13,7 +12,7 @@ class Scraper:
         for article in articles:
             if article.name != 'a':
                 article = article.find('a')
-
+            breakpoint()
             article_link = LinkProcessor.process(article.attrs['href'], url)
             article_list.append(ArticleObj(article.text, article_link))
 
