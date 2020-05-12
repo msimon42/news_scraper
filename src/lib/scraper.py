@@ -16,8 +16,8 @@ class Scraper:
         for article in articles:
             if article.name != 'a':
                 article = article.find('a')
-            breakpoint()
-            article_link = LinkProcessor.process(article.attrs['href'], url)
+
+            article_link = LinkProcessor.process(article.get('href'), url)
             if self.nlp.is_sentence(article.text):
                 article_list.append(ArticleObj(article.text, article_link))
 
