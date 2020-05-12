@@ -27,6 +27,18 @@ class Link(db.Model):
     subscribed_users = db.relationship('UserSubscription', backref='link')
     articles = db.relationship('Article', backref='link')
 
+    def get_todays_articles(self):
+        articles = Scraper.get_articles(self.url, self.css_tag)
+
+        for article in articles:
+            if NLProcessor.is_sentence(article.headline):
+                new_article = Article(link_id=self.id,
+                                      url=article.link,
+                                      headline=article.headline)
+                db.session.add(new_article)
+                db.session.commit()
+
+
     def __repr__(self):
         'Link %r' % self.url
 
