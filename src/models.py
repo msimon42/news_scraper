@@ -5,6 +5,7 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String)
+    created_at = db.Column(db.DateTime)
 
     subscribed_links = db.relationship('UserSubscription', backref='user')
     recieved_articles = db.relationship('SentArticle', backref='user')
@@ -19,6 +20,8 @@ class Link(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.String)
     css_tag = db.Column(db.String)
+    created_at = db.Column(db.DateTime)
+
 
     subscribed_users = db.relationship('UserSubscription', backref='link')
     articles = db.relationship('Article', backref='link')
@@ -33,6 +36,8 @@ class UserSubscription(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     link_id = db.Column(db.Integer, db.ForeignKey('links.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    created_at = db.Column(db.DateTime)
+
 
     def __repr__(self):
         'UserSubscription %r' % self.id
@@ -45,6 +50,8 @@ class Article(db.Model):
     link_id = db.Column(db.Integer, db.ForeignKey('links.id'))
     url = db.Column(db.String)
     headline = db.Column(db.String)
+    created_at = db.Column(db.DateTime)
+
 
     recipients = db.relationship('SentArticle', backref='article')
 
@@ -58,6 +65,8 @@ class SentArticle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
+    created_at = db.Column(db.DateTime)
+
 
     def __repr__(self):
         'SentArticle, %r' % self.id
