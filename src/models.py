@@ -31,9 +31,9 @@ class Link(db.Model):
 
     def get_todays_articles(self):
         articles = Scraper.get_articles(self.url, self.css_tag)
-
+        nlp = NLProcessor()
         for article in articles:
-            if NLProcessor.is_sentence(article.headline):
+            if nlp.is_sentence(article.headline):
                 new_article = Article(link_id=self.id,
                                       url=article.link,
                                       headline=article.headline)
