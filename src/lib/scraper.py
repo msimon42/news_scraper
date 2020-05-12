@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
-from . import article
-from . import link_processor
+from .article_obj import ArticleObj
+from .link_processor import LinkProcessor
 
 class Scraper:
     @classmethod
@@ -15,6 +15,6 @@ class Scraper:
                 article = article.find('a')
 
             article_link = LinkProcessor.process(article.attrs['href'], url)
-            article_list.append(Article(article.text, article_link))
+            article_list.append(ArticleObj(article.text, article_link))
 
         return article_list
