@@ -7,7 +7,6 @@ from src.models import *
 migrate = Migrate(app, db)
 manager = Manager(app)
 
-manager.add_command('db', MigrateCommand)
 def make_shell_context():
     return dict(app=app,
                 db=db,
@@ -17,7 +16,10 @@ def make_shell_context():
                 Article=Article,
                 SentArticle=SentArticle)
 
+manager.add_command('db', MigrateCommand)
 manager.add_command('shell', Shell(make_context=make_shell_context))
+manager.add_command('get todays articles', GetArticles())
+
 
 if __name__ == '__main__':
     manager.run()
