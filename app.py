@@ -6,7 +6,6 @@ from src.lib.scraper import Scraper
 from src.lib.article_serializer import ArticleSerializer
 from src.lib.css_finder import CssFinder
 from src.forms import *
-from src.mailers import *
 from dotenv import load_dotenv
 import os
 
@@ -86,7 +85,7 @@ db = SQLAlchemy(app)
 mail = Mail(app)
 
 from src.models import *
-
+from src.mailers import *
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
