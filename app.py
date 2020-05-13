@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, redirect, flash
+from flask_mail import Mail, Message
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 from src.lib.scraper import Scraper
