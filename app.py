@@ -10,6 +10,7 @@ from src.forms import *
 from dotenv import load_dotenv
 import os
 
+celery = Celery(__name__, broker=os.getenv('CELERY_BROKER_URL'))
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config = True)
