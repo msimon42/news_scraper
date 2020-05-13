@@ -15,7 +15,7 @@ class User(db.Model):
     recieved_articles = db.relationship('SentArticle', backref='user')
 
     def __repr__(self):
-        'User %r' % self.email
+        'User %r' % self.id
 
 
 class Link(db.Model):
@@ -41,7 +41,7 @@ class Link(db.Model):
 
 
     def __repr__(self):
-        'Link %r' % self.url
+        'Link %r' % self.id
 
 
 class UserSubscription(db.Model):
@@ -70,7 +70,7 @@ class Article(db.Model):
     recipients = db.relationship('SentArticle', backref='article')
 
     def __repr__(self):
-        'Article %r' % self.headline
+        'Article %r' % self.id
 
 
 class SentArticle(db.Model):
