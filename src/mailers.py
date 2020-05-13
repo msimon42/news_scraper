@@ -4,7 +4,7 @@ from flask_mail import Message
 
 class ConfirmationMailer:
     @classmethod
-    def send(cls, recipient):
+    def send_message(cls, recipient):
         message = Message('News Scraper -- Confirm you email address',
                            recipients=[recipient.email])
 
