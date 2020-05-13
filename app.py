@@ -35,7 +35,12 @@ def create_app(test_config=None):
         return render_template('landing.html')
 
     @app.route('/confirm', methods=['GET', 'POST'])
-    def confirm():    
+    def confirm():
+        id = request.args.get('id')
+        user = User.query.get(id)
+        user.confirmed = True
+        db.session.commit()
+        return 'Your subscription has been confirmed!'
 
     @app.route('/subscribe', methods=['GET', 'POST'])
     def subscribe():
