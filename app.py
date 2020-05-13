@@ -57,7 +57,7 @@ def create_app(test_config=None):
             db.session.add(new_user)
             db.session.commit()
 
-            ConfirmationMailer.send_message(new_user)
+            send_confirmation_email(new_user)
 
             for link in links:
                 link_ = Link.query.filter_by(url=link).first()
