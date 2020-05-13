@@ -6,6 +6,7 @@ from src.lib.scraper import Scraper
 from src.lib.article_serializer import ArticleSerializer
 from src.lib.css_finder import CssFinder
 from src.forms import *
+from src.mailers import *
 from dotenv import load_dotenv
 import os
 
