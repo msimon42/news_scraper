@@ -27,6 +27,8 @@ def create_app(test_config=None):
         MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER')
     )
 
+    celery.conf.update(app.config)
+
     try:
         os.makedirs(app.instance_path)
     except OSError:
