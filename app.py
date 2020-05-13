@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, redirect, flash
+from flask_mail import Mail, Message
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 from src.lib.scraper import Scraper
@@ -16,6 +17,12 @@ def create_app(test_config=None):
         SECRET_KEY=os.getenv('SECRET_KEY'),
         SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL"),
         SQLALCHEMY_TRACK_MODIFICATIONS = False,
+        MAIL_SERVER = 'smtp.sendgrid.net',
+        MAIL_PORT = 587,
+        MAIL_USE_TLS = True,
+        MAIL_USERNAME = 'apikey',
+        MAIL_PASSWORD = os.getenv('SENDGRID_API_KEY'),
+        MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER')
     )
 
     try:
@@ -27,6 +34,14 @@ def create_app(test_config=None):
     def root():
         return render_template('landing.html')
 
+    @app.route('/confirm', methods=['GET', 'POST'])
+    def confirm():
+        id = request.args.get('id')
+        user = User.query.get(id)
+        user.confirmed = True
+        db.session.commit()
+        return 'Your subscription has been confirmed!'
+
     @app.route('/subscribe', methods=['GET', 'POST'])
     def subscribe():
         form = SubscriptionForm()
@@ -37,6 +52,8 @@ def create_app(test_config=None):
             new_user = User(email=email_address)
             db.session.add(new_user)
             db.session.commit()
+
+            ConfirmationMailer.send_message(new_user)
 
             for link in links:
                 link_ = Link.query.filter_by(url=link).first()
@@ -73,8 +90,10 @@ def create_app(test_config=None):
 
 app = create_app()
 db = SQLAlchemy(app)
-from src.models import *
+mail = Mail(app)
 
+from src.models import *
+from src.mailers import *
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
