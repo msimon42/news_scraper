@@ -34,6 +34,9 @@ def create_app(test_config=None):
     def root():
         return render_template('landing.html')
 
+    @app.route('/confirm', methods=['GET', 'POST'])
+    def confirm():    
+
     @app.route('/subscribe', methods=['GET', 'POST'])
     def subscribe():
         form = SubscriptionForm()
