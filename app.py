@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, redirect, flash
 from flask_mail import Mail, Message
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
+from celery import Celery
 from src.lib.scraper import Scraper
 from src.lib.article_serializer import ArticleSerializer
 from src.lib.css_finder import CssFinder
