@@ -1,4 +1,4 @@
-from app import db
+from application import db
 from datetime import datetime
 from src.lib.scraper import Scraper
 from src.lib.nl_processor import NLProcessor

@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, redirect, flash
 from flask_mail import Mail, Message
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
+from celery import Celery
 from src.lib.scraper import Scraper
 from src.lib.article_serializer import ArticleSerializer
 from src.lib.css_finder import CssFinder
@@ -10,10 +11,11 @@ from dotenv import load_dotenv
 import os
 
 
-def create_app(test_config=None):
-    app = Flask(__name__, instance_relative_config = True)
 
-    app.config.from_mapping(
+def create_application(test_config=None):
+    application = Flask(__name__, instance_relative_config = True)
+
+    application.config.from_mapping(
         SECRET_KEY=os.getenv('SECRET_KEY'),
         SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL"),
         SQLALCHEMY_TRACK_MODIFICATIONS = False,
@@ -25,16 +27,17 @@ def create_app(test_config=None):
         MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER')
     )
 
+
     try:
-        os.makedirs(app.instance_path)
+        os.makedirs(application.instance_path)
     except OSError:
         pass
 
-    @app.route('/')
+    @application.route('/')
     def root():
         return render_template('landing.html')
 
-    @app.route('/confirm', methods=['GET', 'POST'])
+    @application.route('/confirm', methods=['GET', 'POST'])
     def confirm():
         id = request.args.get('id')
         user = User.query.get(id)
@@ -42,7 +45,7 @@ def create_app(test_config=None):
         db.session.commit()
         return 'Your subscription has been confirmed!'
 
-    @app.route('/subscribe', methods=['GET', 'POST'])
+    @application.route('/subscribe', methods=['GET', 'POST'])
     def subscribe():
         form = SubscriptionForm()
         if form.validate_on_submit():
@@ -53,7 +56,7 @@ def create_app(test_config=None):
             db.session.add(new_user)
             db.session.commit()
 
-            ConfirmationMailer.send_message(new_user)
+            send_confirmation_email.delay(new_user.email, new_user.id)
 
             for link in links:
                 link_ = Link.query.filter_by(url=link).first()
@@ -80,20 +83,25 @@ def create_app(test_config=None):
 
         return render_template('subscribe.html', title='Subscribe', form=form)
 
-    @app.route('/api/request-articles', methods=['POST'])
+    @application.route('/api/request-articles', methods=['POST'])
     def request_articles():
         data = request.json
         articles = Scraper.get_articles(data['url'], data['css-tag'])
         return ArticleSerializer.render_json(articles)
 
-    return app
+    return application
 
-app = create_app()
-db = SQLAlchemy(app)
-mail = Mail(app)
+application = create_application()
+db = SQLAlchemy(application)
+mail = Mail(application)
+
+with application.app_context():
+    celery = Celery(__name__, broker=f"sqs://{os.environ['AWS_ACCESS_KEY_ID']}:{os.environ['AWS_ACCESS_KEY']}@")
+    celery.conf.update(application.config)
 
 from src.models import *
 from src.mailers import *
+from tasks import *
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    application.run(host='0.0.0.0')

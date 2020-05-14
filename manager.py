@@ -1,15 +1,15 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
-from app import app, db
+from application import application, db
 from src.models import *
 from src.scripts import *
 
-migrate = Migrate(app, db)
-manager = Manager(app)
+migrate = Migrate(application, db)
+manager = Manager(application)
 
 def make_shell_context():
-    return dict(app=app,
+    return dict(application=application,
                 db=db,
                 User=User,
                 Link=Link,
