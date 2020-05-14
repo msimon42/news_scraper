@@ -10,7 +10,7 @@ from src.forms import *
 from dotenv import load_dotenv
 import os
 
-celery = Celery(__name__, broker=f"sqs://{os.environ['AWS_ACCESS_KEY_ID']}:{os.environ['AWS_ACCESS_KEY']}@")
+
 
 def create_application(test_config=None):
     application = Flask(__name__, instance_relative_config = True)
@@ -27,7 +27,6 @@ def create_application(test_config=None):
         MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER')
     )
 
-    celery.conf.update(application.config)
 
     try:
         os.makedirs(application.instance_path)
@@ -95,6 +94,10 @@ def create_application(test_config=None):
 application = create_application()
 db = SQLAlchemy(application)
 mail = Mail(application)
+
+with application.app_context():
+    celery = Celery(__name__, broker=f"sqs://{os.environ['AWS_ACCESS_KEY_ID']}:{os.environ['AWS_ACCESS_KEY']}@")
+    celery.conf.update(application.config)
 
 from src.models import *
 from src.mailers import *
