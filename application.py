@@ -57,7 +57,7 @@ def create_application(test_config=None):
             db.session.add(new_user)
             db.session.commit()
 
-            send_confirmation_email.delay(new_user)
+            send_confirmation_email.delay(new_user.email, new_user.id)
 
             for link in links:
                 link_ = Link.query.filter_by(url=link).first()
