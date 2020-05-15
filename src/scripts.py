@@ -26,7 +26,7 @@ class FillCssTags(Command):
 
         for link in links:
             try:
-                tag = CssFinder.find_tag(link)
+                tag = CssFinder.find_tag(link.url)
                 print(f'Collected tag for {link.url}')
             except:
                 tag = 'no tag'
