@@ -56,29 +56,21 @@ def create_application(test_config=None):
             db.session.add(new_user)
             db.session.commit()
 
-            send_confirmation_email.delay(new_user.email, new_user.id)
-
             for link in links:
                 link_ = Link.query.filter_by(url=link).first()
                 if link_ is None:
                     try:
-                        css_tag = CssFinder.find_tag(link)
-                        new_link = Link(url=link, css_tag=css_tag)
-                        db.session.add(new_link)
-                        db.session.commit()
-                        us = UserSubscription(link_id=new_link.id, user_id=new_user.id)
-                        db.session.add(us)
-                        db.session.commit()
+                        response = subscription_attempt(link)
+                        flash(response)
                     except:
-                        flash(f"Could not subscribe to {link}. It's possible that this site blocks web scraping.")
-
-                    continue
+                        flash(f"Could not connect to {link}. All urls must be preceded by 'http://' or 'https://'.")
 
                 us = UserSubscription(link_id=link_.id, user_id=new_user.id)
                 db.session.add(us)
                 db.session.commit()
 
             flash('You are subscribed to news scraper!')
+            ConfirmationMailer.send_message(new_user)
             return redirect('/')
 
         return render_template('subscribe.html', title='Subscribe', form=form)
@@ -89,15 +81,27 @@ def create_application(test_config=None):
         articles = Scraper.get_articles(data['url'], data['css-tag'])
         return ArticleSerializer.render_json(articles)
 
+    ## HELPER METHODS ##
+
+    def subscription_attempt(link):
+        status_code = Scraper.ping(link)
+        if status_code == 200:
+            new_link = Link(url=link)
+            db.session.add(new_link)
+            db.session.commit()
+            us = UserSubscription(link_id=new_link.id, user_id=new_user.id)
+            db.session.add(us)
+            db.session.commit()
+            return f'Subscribed to {link}'
+        else:
+            return f'Could not subscribe to {link}. It is possible that this site blocks web scraping.'
+
+
     return application
 
 application = create_application()
 db = SQLAlchemy(application)
 mail = Mail(application)
-
-with application.app_context():
-    celery = Celery(__name__, broker=f"sqs://{os.environ['AWS_ACCESS_KEY_ID']}:{os.environ['AWS_ACCESS_KEY']}@")
-    celery.conf.update(application.config)
 
 from src.models import *
 from src.mailers import *
