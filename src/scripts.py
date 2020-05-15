@@ -25,12 +25,13 @@ class FillCssTags(Command):
         links = Link.with_empty_css_tag()
 
         for link in links:
+            url = link.url
             try:
-                tag = CssFinder.find_tag(link.url)
-                print(f'Collected tag for {link.url}')
+                tag = CssFinder.find_tag(url)
+                print(f'Collected tag for {url}')
             except:
                 tag = 'no tag'
-                print(f'Could not find tag for {link.url}')
+                print(f'Could not find tag for {url}')
 
             link.css_tag = tag
             db.session.commit()
