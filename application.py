@@ -65,6 +65,8 @@ def create_application(test_config=None):
                     except:
                         flash(f"Could not connect to {link}. All urls must be preceded by 'http://' or 'https://'.")
 
+                    continue    
+
                 us = UserSubscription(link_id=link_.id, user_id=new_user.id)
                 db.session.add(us)
                 db.session.commit()
