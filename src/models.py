@@ -39,6 +39,10 @@ class Link(db.Model):
             db.session.add(new_article)
             db.session.commit()
 
+    @classmethod
+    def with_empty_css_tag(cls):
+        return cls.query.filter_by(css_tag=None)
+
 
     def __repr__(self):
         'Link %r' % self.id
