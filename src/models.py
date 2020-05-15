@@ -14,6 +14,13 @@ class User(db.Model):
     subscribed_links = db.relationship('UserSubscription', backref='user')
     recieved_articles = db.relationship('SentArticle', backref='user')
 
+    def articles():
+        result = db.engine.execute('SELECT * FROM articles' +
+                                   'INNER JOIN sent_articles ON sent_articles.article_id = articles.id' +
+                                   'INNER JOIN users ON sent_articles.user_id = users.id')
+
+        return [ article.id for article in result ]                           
+
     def __repr__(self):
         'User %r' % self.id
 
