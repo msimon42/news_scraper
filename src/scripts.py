@@ -1,5 +1,6 @@
 from flask_script import Command
 from src.models import *
+from src.lib.css_finder import CssFinder
 
 class GetArticles(Command):
     "Gets articles from all links in db"
@@ -25,8 +26,12 @@ class FillCssTags(Command):
         for link in links:
             try:
                 tag = CssFinder.find_tag(link)
+                print(f'Collected tag for {link.url}')
             except:
                 tag = 'no tag'
+                print(f'Could not find tag for {link.url}')
 
             link.css_tag = tag
-            db.session.commit()               
+            db.session.commit()
+
+        print('done')
