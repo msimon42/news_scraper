@@ -22,3 +22,8 @@ class Scraper:
                 article_list.append(ArticleObj(article.text, article_link))
 
         return article_list
+
+    @classmethod
+    def ping(cls, url):
+        r = requests.get(url)
+        return r.status_code
