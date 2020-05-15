@@ -1,4 +1,5 @@
 from flask_script import Command
+from application import db
 from src.models import *
 from src.lib.css_finder import CssFinder
 
