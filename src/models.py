@@ -2,6 +2,7 @@ from application import db
 from datetime import datetime, timedelta
 from src.lib.scraper import Scraper
 from src.lib.nl_processor import NLProcessor
+import random
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -30,15 +31,17 @@ class User(db.Model):
                                    f'WHERE users.id = {self.id}')
 
         ids = [ link.id for link in result ]
-        return Link.query.filter(Link.id.in_(ids))
+        return ids
 
-    def select_articles_for_today(self):
+    def select_articles_for_today(self, articles):
         article_ids = self.articles()
         links = self.links()
 
+        eligible_articles = [ article for article in articles if article.link_id in links and self.not_yet_sent(article.id)]
+        return random.sample(eligible_articles, 5)
 
-
-
+    def not_yet_sent(self, article_id):
+        return article_id not in self.sent_article_ids()
 
     def __repr__(self):
         return 'User %r' % self.id
