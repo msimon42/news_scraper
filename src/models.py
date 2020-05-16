@@ -39,8 +39,9 @@ class User(db.Model):
 
 
 
+
     def __repr__(self):
-        'User %r' % self.id
+        return 'User %r' % self.id
 
 
 class Link(db.Model):
@@ -74,7 +75,7 @@ class Link(db.Model):
 
 
     def __repr__(self):
-        'Link %r' % self.id
+        return 'Link %r' % self.id
 
 
 class UserSubscription(db.Model):
@@ -87,7 +88,7 @@ class UserSubscription(db.Model):
 
 
     def __repr__(self):
-        'UserSubscription %r' % self.id
+        return 'UserSubscription %r' % self.id
 
 
 class Article(db.Model):
@@ -103,7 +104,7 @@ class Article(db.Model):
     recipients = db.relationship('SentArticle', backref='article')
 
     def __repr__(self):
-        'Article %r' % self.id
+        return 'Article %r' % self.id
 
 
 class SentArticle(db.Model):
@@ -116,4 +117,4 @@ class SentArticle(db.Model):
 
 
     def __repr__(self):
-        'SentArticle, %r' % self.id
+        return 'SentArticle, %r' % self.id
