@@ -14,11 +14,12 @@ class User(db.Model):
     subscribed_links = db.relationship('UserSubscription', backref='user')
     recieved_articles = db.relationship('SentArticle', backref='user')
 
-    def sent_article_ids(self):
+    def sent_article_ids(self, days_ago):
         result = db.engine.execute('SELECT articles.id FROM articles ' +
                                    'INNER JOIN sent_articles ON sent_articles.article_id = articles.id ' +
                                    'INNER JOIN users ON sent_articles.user_id = users.id ' +
-                                   f'WHERE users.id = {self.id}')
+                                   f'WHERE users.id = {self.id} ' +
+                                   f'AND articles.created_at > {datetime.now() - datetime.timedelta(days=days_ago)}')
 
         return [ article for article.id in result ]
 
@@ -32,6 +33,8 @@ class User(db.Model):
         return Link.query.filter(Link.id.in_(ids))
 
     def select_articles_for_today(self):
+        article_ids = self.articles()
+        links = self.links()
 
 
 
