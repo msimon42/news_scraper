@@ -1,5 +1,5 @@
 from application import db
-from datetime import datetime
+from datetime import datetime, timedelta
 from src.lib.scraper import Scraper
 from src.lib.nl_processor import NLProcessor
 
@@ -29,7 +29,7 @@ class User(db.Model):
                                    'INNER JOIN users ON users.id = user_subscriptions.user_id ' +
                                    f'WHERE users.id = {self.id}')
 
-        ids = [ link for link.id in result ]
+        ids = [ link.id for link in result ]
         return Link.query.filter(Link.id.in_(ids))
 
     def select_articles_for_today(self):
@@ -63,6 +63,10 @@ class Link(db.Model):
                                   headline=article.headline)
             db.session.add(new_article)
             db.session.commit()
+
+    def articles_from_n_days(self, n):
+        n_days_ago = (datetime.now() - timedelta(days=n)).strftime('%m-%d-%y')
+        return Article.query.filter(Article.link_id==self.id, Article.created_at>=n_days_ago)
 
     @classmethod
     def with_empty_css_tag(cls):
