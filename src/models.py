@@ -41,7 +41,8 @@ class User(db.Model):
         return random.sample(eligible_articles, 5)
 
     def not_yet_sent(self, article_id):
-        return article_id not in self.sent_article_ids()
+        sent_ids = self.sent_article_ids()
+        return article_id not in sent_ids
 
     def __repr__(self):
         return 'User %r' % self.id
