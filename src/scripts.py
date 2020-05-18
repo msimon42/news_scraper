@@ -41,4 +41,14 @@ class FillCssTags(Command):
 class SendArticlesToUsers(Command):
     "Sends articles to users"
 
-            
+    def run(self):
+        articles = Article.from_n_days_ago(2)
+        users = User.query.all()
+
+        for user in users:
+            user_articles = user.select_articles_for_today(articles)
+            ArticlesMailer.send_message(user, user_articles)
+            user.add_sent_articles(user_articles)
+            print(f'Sent articles to {user.email}')
+
+        print('Done.')    
