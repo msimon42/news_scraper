@@ -37,3 +37,8 @@ class FillCssTags(Command):
             db.session.commit()
 
         print('done')
+
+class SendArticlesToUsers(Command):
+    "Sends articles to users"
+
+            
