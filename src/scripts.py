@@ -1,13 +1,14 @@
 from flask_script import Command
 from application import db
 from src.models import *
+from src.mailers import *
 from src.lib.css_finder import CssFinder
 
 class GetArticles(Command):
     "Gets articles from all links in db"
 
     def run(self):
-        links = Link.query.all()
+        links = Link.with_valid_css_tag()
 
         for link in links:
             try:
@@ -37,3 +38,18 @@ class FillCssTags(Command):
             db.session.commit()
 
         print('done')
+
+class SendArticlesToUsers(Command):
+    "Sends articles to users"
+
+    def run(self):
+        articles = Article.from_n_days_ago(2)
+        users = User.confirmed_users()
+
+        for user in users:
+            user_articles = user.select_articles_for_today(articles)
+            ArticlesMailer.send_message(user, user_articles)
+            user.add_sent_articles(user_articles)
+            print(f'Sent articles to {user.email}')
+
+        print('Done.')

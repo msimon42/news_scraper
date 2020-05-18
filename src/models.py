@@ -1,7 +1,9 @@
 from application import db
-from datetime import datetime
+from datetime import datetime, timedelta
 from src.lib.scraper import Scraper
 from src.lib.nl_processor import NLProcessor
+from src.lib.helper_methods import *
+import random
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -14,8 +16,50 @@ class User(db.Model):
     subscribed_links = db.relationship('UserSubscription', backref='user')
     recieved_articles = db.relationship('SentArticle', backref='user')
 
+    @classmethod
+    def confirmed_users(cls):
+        return cls.query.filter_by(confirmed=True)
+
+    def sent_article_ids(self, days_ago):
+        result = db.engine.execute('SELECT articles.id FROM articles ' +
+                                   'INNER JOIN sent_articles ON sent_articles.article_id = articles.id ' +
+                                   'INNER JOIN users ON sent_articles.user_id = users.id ' +
+                                   f'WHERE users.id = {self.id} ' +
+                                   f"AND articles.created_at > '{n_days_ago(days_ago)}'")
+
+        return [ article for article.id in result ]
+
+    def links(self):
+        result = db.engine.execute('SELECT links.id FROM links ' +
+                                   'INNER JOIN user_subscriptions ON links.id = user_subscriptions.link_id ' +
+                                   'INNER JOIN users ON users.id = user_subscriptions.user_id ' +
+                                   f'WHERE users.id = {self.id}')
+
+        ids = [ link.id for link in result ]
+        return ids
+
+    def select_articles_for_today(self, articles):
+        article_ids = self.sent_article_ids(2)
+        links = self.links()
+
+        eligible_articles = [ article for article in articles if article.link_id in links and article.id not in article_ids]
+        try:
+            return random.sample(eligible_articles, 5)
+        except:
+            return eligible_articles
+
+    def not_yet_sent(self, article_id):
+        sent_ids = self.sent_article_ids(2)
+        return article_id not in sent_ids
+
+    def add_sent_articles(self, articles):
+        for article in articles:
+            sent_article = SentArticle(user_id=self.id, article_id=article.id)
+            db.session.add(sent_article)
+            db.session.commit()
+
     def __repr__(self):
-        'User %r' % self.id
+        return 'User %r' % self.id
 
 
 class Link(db.Model):
@@ -39,13 +83,21 @@ class Link(db.Model):
             db.session.add(new_article)
             db.session.commit()
 
+    def articles_from_n_days(self, n):
+        n_days_ago = n_days_ago(n)
+        return Article.query.filter(Article.link_id==self.id, Article.created_at>=n_days_ago)
+
     @classmethod
     def with_empty_css_tag(cls):
         return cls.query.filter_by(css_tag=None)
 
+    @classmethod
+    def with_valid_css_tag(cls):
+        return cls.query.filter(cls.css_tag!='no tag', cls.css_tag!=None)
+
 
     def __repr__(self):
-        'Link %r' % self.id
+        return 'Link %r' % self.url
 
 
 class UserSubscription(db.Model):
@@ -58,7 +110,7 @@ class UserSubscription(db.Model):
 
 
     def __repr__(self):
-        'UserSubscription %r' % self.id
+        return 'UserSubscription %r' % self.id
 
 
 class Article(db.Model):
@@ -73,8 +125,13 @@ class Article(db.Model):
 
     recipients = db.relationship('SentArticle', backref='article')
 
+    @classmethod
+    def from_n_days_ago(cls, days):
+        cutoff = n_days_ago(days)
+        return cls.query.filter(cls.created_at>=cutoff)
+
     def __repr__(self):
-        'Article %r' % self.id
+        return 'Article %r' % self.headline
 
 
 class SentArticle(db.Model):
@@ -87,4 +144,4 @@ class SentArticle(db.Model):
 
 
     def __repr__(self):
-        'SentArticle, %r' % self.id
+        return 'SentArticle, %r' % self.id

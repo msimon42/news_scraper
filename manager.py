@@ -21,6 +21,7 @@ manager.add_command('db', MigrateCommand)
 manager.add_command('shell', Shell(make_context=make_shell_context))
 manager.add_command('get-todays-articles', GetArticles())
 manager.add_command('fill-tags', FillCssTags())
+manager.add_command('send-articles', SendArticlesToUsers())
 
 
 if __name__ == '__main__':
