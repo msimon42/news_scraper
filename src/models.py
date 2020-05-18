@@ -27,7 +27,7 @@ class User(db.Model):
                                    f'WHERE users.id = {self.id} ' +
                                    f"AND articles.created_at > '{n_days_ago(days_ago)}'")
 
-        return [ article for article.id in result ]
+        return [ article.id for article in result ]
 
     def links(self):
         result = db.engine.execute('SELECT links.id FROM links ' +
