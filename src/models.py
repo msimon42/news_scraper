@@ -110,10 +110,11 @@ class Article(db.Model):
 
     @classmethod
     def from_n_days_ago(cls, days):
-
+        cutoff = n_days_ago(days)
+        return cls.query.filter(cls.created_at>=cutoff)
 
     def __repr__(self):
-        return 'Article %r' % self.id
+        return 'Article %r' % self.headline
 
 
 class SentArticle(db.Model):
