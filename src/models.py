@@ -25,7 +25,7 @@ class User(db.Model):
                                    'INNER JOIN sent_articles ON sent_articles.article_id = articles.id ' +
                                    'INNER JOIN users ON sent_articles.user_id = users.id ' +
                                    f'WHERE users.id = {self.id} ' +
-                                   f'AND articles.created_at > {datetime.now() - datetime.timedelta(days=days_ago)}')
+                                   f"AND articles.created_at > '{n_days_ago(days_ago)}'")
 
         return [ article for article.id in result ]
 
@@ -39,14 +39,17 @@ class User(db.Model):
         return ids
 
     def select_articles_for_today(self, articles):
-        article_ids = self.articles()
+        article_ids = self.sent_article_ids(2)
         links = self.links()
 
-        eligible_articles = [ article for article in articles if article.link_id in links and self.not_yet_sent(article.id)]
-        return random.sample(eligible_articles, 5)
+        eligible_articles = [ article for article in articles if article.link_id in links and article.id not in article_ids]
+        try:
+            return random.sample(eligible_articles, 5)
+        except:
+            return eligible_articles
 
     def not_yet_sent(self, article_id):
-        sent_ids = self.sent_article_ids()
+        sent_ids = self.sent_article_ids(2)
         return article_id not in sent_ids
 
     def add_sent_articles(self, articles):
