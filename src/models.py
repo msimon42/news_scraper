@@ -18,7 +18,7 @@ class User(db.Model):
 
     @classmethod
     def confirmed(cls):
-        cls.query.filter_by(confirmed=True)
+        return cls.query.filter(cls.confirmed==True)
 
     def sent_article_ids(self, days_ago):
         result = db.engine.execute('SELECT articles.id FROM articles ' +
