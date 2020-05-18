@@ -16,6 +16,10 @@ class User(db.Model):
     subscribed_links = db.relationship('UserSubscription', backref='user')
     recieved_articles = db.relationship('SentArticle', backref='user')
 
+    @classmethod
+    def confirmed(cls):
+        cls.query.filter_by(confirmed=True)
+
     def sent_article_ids(self, days_ago):
         result = db.engine.execute('SELECT articles.id FROM articles ' +
                                    'INNER JOIN sent_articles ON sent_articles.article_id = articles.id ' +
