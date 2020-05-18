@@ -82,6 +82,10 @@ class Link(db.Model):
     def with_empty_css_tag(cls):
         return cls.query.filter_by(css_tag=None)
 
+    @classmethod
+    def with_valid_css_tag(cls):
+        return cls.query.filter(cls.css_tag!='no tag', cls.css_tag!=None)    
+
 
     def __repr__(self):
         return 'Link %r' % self.url
