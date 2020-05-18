@@ -44,7 +44,7 @@ class SendArticlesToUsers(Command):
 
     def run(self):
         articles = Article.from_n_days_ago(2)
-        users = User.query.all()
+        users = User.query.filter_by(confirmed=True)
 
         for user in users:
             user_articles = user.select_articles_for_today(articles)
