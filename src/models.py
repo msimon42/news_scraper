@@ -2,6 +2,7 @@ from application import db
 from datetime import datetime, timedelta
 from src.lib.scraper import Scraper
 from src.lib.nl_processor import NLProcessor
+from src.lib.helper_methods import *
 import random
 
 class User(db.Model):
@@ -70,7 +71,7 @@ class Link(db.Model):
             db.session.commit()
 
     def articles_from_n_days(self, n):
-        n_days_ago = (datetime.now() - timedelta(days=n)).strftime('%m-%d-%y')
+        n_days_ago =
         return Article.query.filter(Article.link_id==self.id, Article.created_at>=n_days_ago)
 
     @classmethod
@@ -106,6 +107,10 @@ class Article(db.Model):
 
 
     recipients = db.relationship('SentArticle', backref='article')
+
+    @classmethod
+    def from_n_days_ago(cls, days):
+
 
     def __repr__(self):
         return 'Article %r' % self.id
