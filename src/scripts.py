@@ -1,6 +1,7 @@
 from flask_script import Command
 from application import db
 from src.models import *
+from src.mailers import *
 from src.lib.css_finder import CssFinder
 
 class GetArticles(Command):
@@ -51,4 +52,4 @@ class SendArticlesToUsers(Command):
             user.add_sent_articles(user_articles)
             print(f'Sent articles to {user.email}')
 
-        print('Done.')    
+        print('Done.')
