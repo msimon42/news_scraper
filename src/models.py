@@ -17,8 +17,8 @@ class User(db.Model):
     recieved_articles = db.relationship('SentArticle', backref='user')
 
     @classmethod
-    def confirmed(cls):
-        return cls.query.filter(cls.confirmed==True)
+    def confirmed_users(cls):
+        return cls.query.filter_by(confirmed=True)
 
     def sent_article_ids(self, days_ago):
         result = db.engine.execute('SELECT articles.id FROM articles ' +
