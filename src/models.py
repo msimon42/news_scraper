@@ -80,7 +80,7 @@ class Link(db.Model):
 
 
     def __repr__(self):
-        return 'Link %r' % self.id
+        return 'Link %r' % self.url
 
 
 class UserSubscription(db.Model):
