@@ -49,6 +49,12 @@ class User(db.Model):
         sent_ids = self.sent_article_ids()
         return article_id not in sent_ids
 
+    def add_sent_articles(self, articles):
+        for article in articles:
+            sent_article = SentArticle(user_id=self.id, article_id=article.id)
+            db.session.add(sent_article)
+            db.session.commit()
+
     def __repr__(self):
         return 'User %r' % self.id
 
@@ -84,7 +90,7 @@ class Link(db.Model):
 
     @classmethod
     def with_valid_css_tag(cls):
-        return cls.query.filter(cls.css_tag!='no tag', cls.css_tag!=None)    
+        return cls.query.filter(cls.css_tag!='no tag', cls.css_tag!=None)
 
 
     def __repr__(self):
