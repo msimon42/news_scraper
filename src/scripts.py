@@ -8,7 +8,7 @@ class GetArticles(Command):
     "Gets articles from all links in db"
 
     def run(self):
-        links = Link.query.all()
+        links = Link.with_valid_css_tag()
 
         for link in links:
             try:
