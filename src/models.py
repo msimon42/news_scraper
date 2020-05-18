@@ -71,7 +71,7 @@ class Link(db.Model):
             db.session.commit()
 
     def articles_from_n_days(self, n):
-        n_days_ago =
+        n_days_ago = n_days_ago(n)
         return Article.query.filter(Article.link_id==self.id, Article.created_at>=n_days_ago)
 
     @classmethod
