@@ -72,7 +72,7 @@ def create_application(test_config=None):
                 db.session.commit()
 
             flash('You are subscribed to news scraper!')
-            ConfirmationMailer.send_message(new_user)
+            send_confirmation_email.delay(new_user.email, new_user.token)
             return redirect('/')
 
         return render_template('subscribe.html', title='Subscribe', form=form)
