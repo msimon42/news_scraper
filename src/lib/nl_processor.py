@@ -17,7 +17,7 @@ class NLProcessor:
 
         ]
 
-        return len(pos.intersection(self.required_pos())) >= 2 and len(deps.intersection(self.required_deps())) >= 2
+        return all(results)
 
 
     def find_parts_of_speech(self, phrase):
