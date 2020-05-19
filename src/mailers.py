@@ -8,7 +8,7 @@ class ConfirmationMailer:
         message = Message('News Scraper -- Confirm you email address',
                            recipients=[recipient.email])
 
-        message.html = render_template('mail_templates/confirmation.html', uid=recipient.id)
+        message.html = render_template('mail_templates/confirmation.html', uid=recipient.token)
         mail.send(message)
 
 class ArticlesMailer:
@@ -18,4 +18,4 @@ class ArticlesMailer:
                            recipients=[recipient.email])
 
         message.html = render_template('mail_templates/daily_articles.html', uid=recipient.id, articles=articles)
-        mail.send(message)                          
+        mail.send(message)

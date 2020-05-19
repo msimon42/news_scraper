@@ -4,6 +4,7 @@ from src.lib.scraper import Scraper
 from src.lib.nl_processor import NLProcessor
 from src.lib.helper_methods import *
 import random
+import secrets
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -11,6 +12,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String)
     confirmed = db.Column(db.Boolean, default=False)
+    token = db.Column(db.String, default=secrets.token_urlsafe())
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     subscribed_links = db.relationship('UserSubscription', backref='user')
