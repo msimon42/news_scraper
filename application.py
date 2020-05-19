@@ -57,7 +57,7 @@ def create_application(test_config=None):
             db.session.commit()
 
             for link in links:
-                link_ = Link.query.filter_by(url=link).first()
+                link_ = Link.query.filter_by(url=link).scalar()
                 if link_ is None:
                     try:
                         response = subscription_attempt(link)
@@ -65,7 +65,7 @@ def create_application(test_config=None):
                     except:
                         flash(f"Could not connect to {link}. All urls must be preceded by 'http://' or 'https://'.")
 
-                    continue    
+                    continue
 
                 us = UserSubscription(link_id=link_.id, user_id=new_user.id)
                 db.session.add(us)
