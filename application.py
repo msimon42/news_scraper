@@ -60,7 +60,7 @@ def create_application(test_config=None):
                 link_ = Link.query.filter_by(url=link).scalar()
                 if link_ is None:
                     try:
-                        response = subscription_attempt(link)
+                        response = subscription_attempt(link, new_user)
                         flash(response)
                     except:
                         flash(f"Could not connect to {link}. All urls must be preceded by 'http://' or 'https://'.")
@@ -85,13 +85,13 @@ def create_application(test_config=None):
 
     ## HELPER METHODS ##
 
-    def subscription_attempt(link):
+    def subscription_attempt(link, user):
         status_code = Scraper.ping(link)
         if status_code == 200:
             new_link = Link(url=link)
             db.session.add(new_link)
             db.session.commit()
-            us = UserSubscription(link_id=new_link.id, user_id=new_user.id)
+            us = UserSubscription(link_id=new_link.id, user_id=user.id)
             db.session.add(us)
             db.session.commit()
             return f'Subscribed to {link}'
