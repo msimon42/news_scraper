@@ -27,7 +27,7 @@ class User(db.Model):
                                    f'WHERE users.id = {self.id} ' +
                                    f"AND articles.created_at > '{n_days_ago(days_ago)}'")
 
-        return [ article for article.id in result ]
+        return [ article.id for article in result ]
 
     def links(self):
         result = db.engine.execute('SELECT links.id FROM links ' +
@@ -44,7 +44,7 @@ class User(db.Model):
 
         eligible_articles = [ article for article in articles if article.link_id in links and article.id not in article_ids]
         try:
-            return random.sample(eligible_articles, 5)
+            return random.sample(eligible_articles, 10)
         except:
             return eligible_articles
 

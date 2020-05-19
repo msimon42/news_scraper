@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<p>Hello! Here's your daily newsletter:</p>
 {% for article in articles %}
-  <p>{{ article.headline }}</p>
+  <div>
+    <h6 style='margin-bottom: 2px;'>{{ article.link.url }}</h6>
+    <a href="{{ article.url }}">
+      <h3>{{ article.headline }}</h3>
+    </a>
+  </div>
 {% endfor %}
+<p>Click <a href='#'>here</a> to unsubscribe</p>
