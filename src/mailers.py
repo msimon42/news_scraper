@@ -4,11 +4,11 @@ from flask_mail import Message
 
 class ConfirmationMailer:
     @classmethod
-    def send_message(cls, recipient):
+    def send_message(cls, recipient_email, recipient_token):
         message = Message('News Scraper -- Confirm you email address',
-                           recipients=[recipient.email])
+                           recipients=[recipient_email])
 
-        message.html = render_template('mail_templates/confirmation.html', uid=recipient.token)
+        message.html = render_template('mail_templates/confirmation.html', uid=recipient_token)
         mail.send(message)
 
 class ArticlesMailer:
