@@ -119,7 +119,7 @@ class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     link_id = db.Column(db.Integer, db.ForeignKey('links.id'))
     url = db.Column(db.String)
-    headline = db.Column(db.String)
+    headline = db.Column(db.String, unique=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 
