@@ -77,11 +77,18 @@ class Link(db.Model):
     def get_todays_articles(self):
         articles = Scraper().get_articles(self.url, self.css_tag)
         for article in articles:
-            new_article = Article(link_id=self.id,
-                                  url=article.link,
-                                  headline=article.headline)
-            db.session.add(new_article)
-            db.session.commit()
+            exists = Article.query.filter_by(url=article.link).scalar()
+            if exists is None:
+                new_article = Article(link_id=self.id,
+                                      url=article.link,
+                                      headline=article.headline)
+
+                db.session.add(new_article)
+                db.session.commit()
+            else:
+                continue
+
+
 
     def articles_from_n_days(self, n):
         n_days_ago = n_days_ago(n)
@@ -118,8 +125,8 @@ class Article(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     link_id = db.Column(db.Integer, db.ForeignKey('links.id'))
-    url = db.Column(db.String)
-    headline = db.Column(db.String, unique=True)
+    url = db.Column(db.String, unique=True)
+    headline = db.Column(db.String)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 
