@@ -6,9 +6,16 @@ class NLProcessor:
     def __init__(self):
         self.nlp = spacy.load('en_core_web_sm')
 
-    def is_sentence(self, phrase):
+    def is_sentence(self, phrase, *args, **kwargs):
         pos = set(self.find_parts_of_speech(phrase))
         deps = set(self.find_syntactic_relation(phrase))
+
+        results = [
+            (len(pos.intersection(self.required_pos())) >= 2),
+            (len(deps.intersection(self.required_deps())) >= 2),
+
+
+        ]
 
         return len(pos.intersection(self.required_pos())) >= 2 and len(deps.intersection(self.required_deps())) >= 2
 
