@@ -6,7 +6,7 @@ import os
 def make_celery(app):
     celery = Celery(
         app.import_name,
-        broker=f"sqs://{os.getenv('AWS_ACCESS_KEY_ID')}:{os.getenv('AWS_ACCESS_KEY')}@"
+        broker=os.getenv['REDIS_URL']
     )
     celery.conf.update(app.config)
 
