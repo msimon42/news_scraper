@@ -7,6 +7,7 @@ class ArticleObj:
     def create_article_objects(cls, link_elements):
         articles = []
         for link in link_elements:
-            articles.append(cls(link.text, link.get('href')))
+            article_link = LinkProcessor.process(link.get('href'))
+            articles.append(cls(link.text, article_link))
 
-        return articles     
+        return articles
