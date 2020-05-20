@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from .article_obj import ArticleObj
 from .link_processor import LinkProcessor
 from .nl_processor import NLProcessor
+from .helper_methods import *
 
 class Scraper:
     def __init__(self):
