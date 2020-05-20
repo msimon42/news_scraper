@@ -146,7 +146,7 @@ after { clear: both; }
 }
 
 #sub-form form input[type="text"] {
-  background-color: #4e565e;
+  background-color: #111112;
   border-radius: 0px 3px 3px 0px;
   color: #a9a9a9;
   margin-bottom: 10px;
