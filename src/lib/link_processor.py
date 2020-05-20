@@ -10,8 +10,10 @@ class LinkProcessor:
 
     @classmethod
     def trunicate_url(cls, url):
-        endpos = url[8:-1].find('/')
-        if endpos and endpos > -1:
+        endpos = url[8:].find('/')
+        if endpos > -1:
             return url[0:(endpos + 8)]
+        elif endpos == -1:
+            return url[0:8] + (url[8:].replace('/', ''))
 
         return url
