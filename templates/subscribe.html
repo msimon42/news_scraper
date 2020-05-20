@@ -13,7 +13,7 @@
       </div>
       <div class='formfield'>
         {{ form.links.label }}
-        {{ form.links }}
+        {{ form.links(placeholder='https://www.example.com/news,http://www.news.org, etc.') }}
       </div>
       <div id='button-div'>
         {{ form.submit(class_='button-line', id='submit-button') }}
