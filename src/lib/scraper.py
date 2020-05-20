@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from .article_obj import ArticleObj
 from .link_processor import LinkProcessor
 from .nl_processor import NLProcessor
+from .helper_methods import *
 
 class Scraper:
     def __init__(self):
@@ -15,13 +16,19 @@ class Scraper:
         article_list = []
         for article in articles:
             if article.name != 'a':
-                article = article.find('a')
+                article_link_elements = article.find_all('a')
+                for link in article_link_elements:
+                    article_list.append(self.__filter_and_convert_link_element(link, url))
 
-            article_link = LinkProcessor.process(article.get('href'), url)
-            if self.nlp.is_sentence(article.text):
-                article_list.append(ArticleObj(article.text, article_link))
+            elif article.name == 'a': ##This was apparently necessary to fix a bug. 
+                article_list.append(self.__filter_and_convert_link_element(article, url))
 
-        return article_list
+        return remove_null_values(article_list)
+
+    def __filter_and_convert_link_element(self, link_element, url):
+        article_link = LinkProcessor.process(link_element.get('href'), url)
+        if self.nlp.is_sentence(link_element.text):
+            return ArticleObj(link_element.text, article_link)
 
     @classmethod
     def ping(cls, url):

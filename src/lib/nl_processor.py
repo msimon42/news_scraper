@@ -6,11 +6,16 @@ class NLProcessor:
     def __init__(self):
         self.nlp = spacy.load('en_core_web_sm')
 
-    def is_sentence(self, phrase):
+    def is_sentence(self, phrase, *args, **kwargs):
         pos = set(self.find_parts_of_speech(phrase))
         deps = set(self.find_syntactic_relation(phrase))
 
-        return len(pos.intersection(self.required_pos())) >= 2 and len(deps.intersection(self.required_deps())) >= 2
+        results = [
+            (len(pos.intersection(self.required_pos())) >= 2),
+            (len(deps.intersection(self.required_deps())) >= 2),
+            ((self.phrase_length(phrase) > 6) or ('cssfind' not in args))
+        ]
+        return all(results)
 
 
     def find_parts_of_speech(self, phrase):
@@ -22,6 +27,9 @@ class NLProcessor:
         tokenized_phrase = self.nlp(phrase)
         token_sr = [ token.dep_ for token in tokenized_phrase ]
         return token_sr
+
+    def phrase_length(self, phrase):
+        return len(self.nlp(phrase))
 
     def required_pos(self):
         return {'NOUN', 'VERB', 'DET'}
