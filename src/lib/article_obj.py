@@ -1,3 +1,5 @@
+from .link_processor import LinkProcessor
+
 class ArticleObj:
     def __init__(self, headline, link):
         self.headline = headline
