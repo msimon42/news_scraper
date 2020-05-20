@@ -20,7 +20,7 @@ class Scraper:
                 for link in article_link_elements:
                     article_list.append(self.__filter_and_convert_link_element(link, url))
 
-            article_list.append(self.__filter_and_convert_link_element(link, url))
+            article_list.append(self.__filter_and_convert_link_element(article, url))
 
         return remove_null_values(article_list)
 
