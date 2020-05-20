@@ -22,7 +22,7 @@ class Scraper:
 
             article_list.append(self.__filter_and_convert_link_element(link, url))
 
-        return article_list
+        return remove_null_values(article_list)
 
     def __filter_and_convert_link_element(self, link_element, url):
         article_link = LinkProcessor.process(link_element.get('href'), url)
