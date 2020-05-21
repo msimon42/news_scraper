@@ -9,11 +9,12 @@ class NLProcessor:
     def is_sentence(self, phrase, *args, **kwargs):
         pos = set(self.find_parts_of_speech(phrase))
         deps = set(self.find_syntactic_relation(phrase))
+        phrase_length = self.phrase_length(phrase)
 
         results = [
             (len(pos.intersection(self.required_pos())) >= 2),
             (len(deps.intersection(self.required_deps())) >= 2),
-            ((self.phrase_length(phrase) > 6) or ('cssfind' not in args))
+            ((phrase_length > 6 and phrase_length < 12) or ('cssfind' not in args))
         ]
         return all(results)
 
