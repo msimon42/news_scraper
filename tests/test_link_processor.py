@@ -15,3 +15,7 @@ class TestLinkProcessor:
         url1 = 'http://dev.to/'
         url2 = 'https://www.news.org'
         url3 = 'https://www.newagency.com/articles'
+
+        assert LinkProcessor.trunicate_url(url1) == 'http://dev.to'
+        assert LinkProcessor.trunicate_url(url2) == url2
+        assert LinkProcessor.trunicate_url(url3) == 'https://www.newagency.com'
