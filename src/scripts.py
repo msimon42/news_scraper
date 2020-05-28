@@ -56,7 +56,7 @@ class SendArticlesToUsers(Command):
 
 class TestNewsletter(Command):
     "Sends a test newsletter"
-
+    articles = Article.from_n_days_ago(2)
     user = User.query.get(18)
     user_articles = user.select_articles_for_today(articles)
     ArticlesMailer.send_message(user, user_articles)
