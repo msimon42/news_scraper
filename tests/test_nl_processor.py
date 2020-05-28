@@ -17,3 +17,7 @@ class TestNLProcessor:
     def test_find_parts_of_speect(self):
         phrase = 'The cat jumped over the hill.'
         assert self.nlp.find_parts_of_speech(phrase) == ['DET', 'NOUN', 'VERB', 'ADP', 'DET', 'NOUN', 'PUNCT']
+
+    def test_find_syntactic_relation(self):
+        phrase = 'Proposed Bill Would Ban Microtargeting of Political Advertisements'
+        assert self.nlp.find_syntactic_relation(phrase) == ['amod', 'nsubj', 'aux', 'ROOT', 'dobj', 'prep', 'amod', 'pobj']    
