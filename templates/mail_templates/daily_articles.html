@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <p>Hello! Here's your daily newsletter:</p>
 {% for article in articles %}
-  <div>
-    <h6 style='margin-bottom: 2px;'>{{ article.link.url }}</h6>
-    <a href="{{ article.url }}">
-      <h3>{{ article.headline }}</h3>
+  <div style='padding-bottom: 20px;'>
+    <a href="{{ article.url }}" style='margin-bottom:2px;'>
+      <p style='font-size: 25px;'>{{ article.headline }}</p>
     </a>
+    <p style='font-size: 10px;'>{{ article.link.url }}</p>
   </div>
 {% endfor %}
 <p>Click <a href='#'>here</a> to unsubscribe</p>
