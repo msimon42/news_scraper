@@ -15,7 +15,8 @@ class ArticlesMailer:
     @classmethod
     def send_message(cls, recipient, articles):
         message = Message("News Scraper -- Today's articles",
-                           recipients=[recipient.email])
+                           recipients=[recipient.email],
+                           sender='news@news-scraper.com')
 
         message.html = render_template('mail_templates/daily_articles.html', uid=recipient.id, articles=articles)
         mail.send(message)
