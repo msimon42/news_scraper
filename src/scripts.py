@@ -53,3 +53,12 @@ class SendArticlesToUsers(Command):
             print(f'Sent articles to {user.email}')
 
         print('Done.')
+
+class TestNewsletter(Command):
+    "Sends a test newsletter"
+
+    user = User.query.get(18)
+    user_articles = user.select_articles_for_today(articles)
+    ArticlesMailer.send_message(user, user_articles)
+
+    print('Done')
