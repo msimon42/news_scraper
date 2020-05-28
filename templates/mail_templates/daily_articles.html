@@ -2,10 +2,10 @@
 <p>Hello! Here's your daily newsletter:</p>
 {% for article in articles %}
   <div>
-    <h6>{{ article.link.url }}</h6>
     <a href="{{ article.url }}">
       <h3>{{ article.headline }}</h3>
     </a>
+    <h6>{{ article.link.url }}</h6>
   </div>
 {% endfor %}
 <p>Click <a href='#'>here</a> to unsubscribe</p>
