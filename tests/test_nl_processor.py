@@ -13,3 +13,7 @@ class TestNLProcessor:
         assert self.nlp.is_sentence(phrase2)
         assert not self.nlp.is_sentence(phrase3, 'cssfind')
         assert self.nlp.is_sentence(phrase3)
+
+    def test_find_parts_of_speect(self):
+        phrase = 'The cat jumped over the hill.'
+        assert self.nlp.find_parts_of_speech(phrase) == ['DET', 'NOUN', 'VERB', 'ADP', 'DET', 'NOUN', 'PUNCT']
