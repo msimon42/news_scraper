@@ -162,5 +162,9 @@ class UserAgent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     agent_string = db.Column(db.String)
 
+    @classmethod
+    def random_user_agent(cls):
+        return cls.query.order_by(func.random()).first()
+
     def __repr__(self):
         return 'User Agent %r' % self.agent_string
