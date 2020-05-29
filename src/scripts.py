@@ -70,8 +70,9 @@ class TestConfirmationEmail(Command):
 
     def run(self):
         try:
-            user = User.query.get(18)
-            ConfirmationMailer.send_message(user.email, user.token)
+            email = os.getenv('ADMIN_EMAIL')
+            token = os.getenv('ADMIN_TOKEN')
+            ConfirmationMailer.send_message(email, token)
             print('Done')
         except:
-            print('An exception occured.')    
+            print('An exception occured.')
