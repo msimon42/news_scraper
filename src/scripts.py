@@ -64,3 +64,14 @@ class TestNewsletter(Command):
         ArticlesMailer.send_message(user, user_articles)
 
         print('Done')
+
+class TestConfirmationEmail(Command):
+    "Sends a test confirmation email"
+
+    def run(self):
+        try:
+            user = User.query.get(18)
+            ConfirmationMailer.send_message(user.email, user.token)
+            print('Done')
+        except:
+            print('An exception occured.')    
