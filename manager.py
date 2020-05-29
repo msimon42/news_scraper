@@ -23,6 +23,7 @@ manager.add_command('get-todays-articles', GetArticles())
 manager.add_command('fill-tags', FillCssTags())
 manager.add_command('send-articles', SendArticlesToUsers())
 manager.add_command('test-newsletter', TestNewsletter())
+manager.add_command('test-confirmation', TestConfirmationEmail())
 
 
 if __name__ == '__main__':
