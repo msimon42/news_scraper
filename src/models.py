@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from src.lib.scraper import Scraper
 from src.lib.nl_processor import NLProcessor
 from src.lib.helper_methods import *
+from sqlalchemy.sql import func
 import random
 import secrets
 
