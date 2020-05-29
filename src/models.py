@@ -164,7 +164,8 @@ class UserAgent(db.Model):
 
     @classmethod
     def random_user_agent(cls):
-        return cls.query.order_by(func.random()).first()
+        random_agent = cls.query.order_by(func.random()).first()
+        return random_agent.agent_string
 
     def __repr__(self):
         return 'User Agent %r' % self.agent_string
