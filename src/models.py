@@ -154,3 +154,12 @@ class SentArticle(db.Model):
 
     def __repr__(self):
         return 'SentArticle, %r' % self.id
+
+class UserAgent(db.Model):
+    __tablename__ = 'user_agents'
+
+    id = db.Column(db.Integer, primary_key=True)
+    agent_string = db.Column(db.String)
+
+    def __repr__(self):
+        return 'User Agent %r' % self.agent_string
