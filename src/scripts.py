@@ -3,6 +3,7 @@ from application import db
 from src.models import *
 from src.mailers import *
 from src.lib.css_finder import CssFinder
+import os
 
 class GetArticles(Command):
     "Gets articles from all links in db"
