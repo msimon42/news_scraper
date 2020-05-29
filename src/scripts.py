@@ -3,6 +3,7 @@ from application import db
 from src.models import *
 from src.mailers import *
 from src.lib.css_finder import CssFinder
+import os
 
 class GetArticles(Command):
     "Gets articles from all links in db"
@@ -64,3 +65,15 @@ class TestNewsletter(Command):
         ArticlesMailer.send_message(user, user_articles)
 
         print('Done')
+
+class TestConfirmationEmail(Command):
+    "Sends a test confirmation email"
+
+    def run(self):
+        try:
+            email = os.getenv('ADMIN_EMAIL')
+            token = os.getenv('ADMIN_TOKEN')
+            ConfirmationMailer.send_message(email, token)
+            print('Done')
+        except:
+            print('An exception occured.')

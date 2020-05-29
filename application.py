@@ -40,7 +40,7 @@ def create_application(test_config=None):
     @application.route('/confirm', methods=['GET', 'POST'])
     def confirm():
         token = request.args.get('token')
-        user = User.query.filter_by(token).scalar()
+        user = User.query.filter_by(token=token).scalar()
         user.confirmed = True
         db.session.commit()
         return 'Your subscription has been confirmed!'
