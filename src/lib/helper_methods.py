@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from src.models import *
+from src.models import UserAgent
 
 def n_days_ago(n):
     return (datetime.now() - timedelta(days=n)).strftime('%m-%d-%y')
