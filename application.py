@@ -5,7 +5,6 @@ from flask_sqlalchemy import SQLAlchemy
 from celery import Celery
 from src.lib.scraper import Scraper
 from src.lib.article_serializer import ArticleSerializer
-from src.lib.css_finder import CssFinder
 from src.forms import *
 from dotenv import load_dotenv
 import os
@@ -108,6 +107,7 @@ mail = Mail(application)
 from src.models import *
 from src.mailers import *
 from tasks import *
+from src.lib.css_finder import CssFinder
 
 if __name__ == '__main__':
     application.run(host='0.0.0.0')
