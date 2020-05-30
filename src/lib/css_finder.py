@@ -44,4 +44,11 @@ class CssFinder:
 
         return table
 
+    def __class_in_parent(self, link):
+        try:
+            return link.parent.get('class')[0]
+        except:
+            return None
+
+
 from .helper_methods import *
