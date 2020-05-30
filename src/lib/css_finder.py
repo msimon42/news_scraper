@@ -4,6 +4,9 @@ from .nl_processor import NLProcessor
 from collections import Counter
 
 class CssFinder:
+    def __init__(self):
+        self.nlp = NLProcessor()
+
     def find_tag(self, url):
         headers = random_user_agent_header()
         r = requests.get(url, headers=headers).content
