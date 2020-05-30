@@ -50,5 +50,10 @@ class CssFinder:
         except:
             return None
 
+    def __class_in_link(self, link):
+        return link.get('class')[0]        
+
+
+
 
 from .helper_methods import *
