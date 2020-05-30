@@ -2,7 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 from .nl_processor import NLProcessor
 from collections import Counter
-from .helper_methods import *
 
 class CssFinder:
     @classmethod
@@ -26,4 +25,8 @@ class CssFinder:
 
             css_class = link.get('class')[0]
             link_classes[css_class] += 1
+
+        breakpoint()    
         return link_classes.most_common(1)[0][0]
+
+from .helper_methods import *
