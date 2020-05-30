@@ -25,11 +25,11 @@ class FillCssTags(Command):
 
     def run(self):
         links = Link.with_empty_css_tag()
-
+        css_finder = CssFinder()
         for link in links:
             url = link.url
             try:
-                tag = CssFinder.find_tag(url)
+                tag = css_finder.find_tag(url)
                 print(f'Collected tag for {url}')
             except:
                 tag = 'no tag'
