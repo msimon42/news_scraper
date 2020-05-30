@@ -6,6 +6,7 @@ from collections import Counter
 class CssFinder:
     def __init__(self):
         self.nlp = NLProcessor()
+        self.link_classes = Counter()
 
     def find_tag(self, url):
         headers = random_user_agent_header()
@@ -21,12 +22,26 @@ class CssFinder:
                 except:
                     continue
 
-                link_classes[css_class] += 1
+                link_classes[css_class] += 1 if self.nlp.phrase_length(link.parent.text) < 10
                 continue
 
             css_class = link.get('class')[0]
             link_classes[css_class] += 1
 
         return link_classes.most_common(1)[0][0]
+
+    def __cssfind_hash_table(self, **kwargs):
+        table = {
+            'link_class': {
+                True: self.__class_in_parent(kwargs['object']),
+                False: self.__class_in_link(kwargs['object'])
+            },
+            'is_not_paragraph': {
+                True: self.__update_counter(kwargs['object']),
+                False: do_nothing()
+            }
+        }
+
+        return table
 
 from .helper_methods import *
