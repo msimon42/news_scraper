@@ -2,10 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 from .nl_processor import NLProcessor
 from collections import Counter
+from .helper_methods import *
 
 class CssFinder:
     @classmethod
     def find_tag(cls, url):
+        headers = random_user_agent_header()
         r = requests.get(url).content
         soup = BeautifulSoup(r, 'html.parser')
         nlp = NLProcessor()
