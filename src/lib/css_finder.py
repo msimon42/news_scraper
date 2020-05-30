@@ -51,7 +51,10 @@ class CssFinder:
             return None
 
     def __class_in_link(self, link):
-        return link.get('class')[0]        
+        return link.get('class')[0]
+
+    def __update_counter(self, css_class):
+        self.link_classes[css_class] += 1            
 
 
 
