@@ -8,7 +8,7 @@ class CssFinder:
     @classmethod
     def find_tag(cls, url):
         headers = random_user_agent_header()
-        r = requests.get(url).content
+        r = requests.get(url, headers=headers).content
         soup = BeautifulSoup(r, 'html.parser')
         nlp = NLProcessor()
         links_with_sentence = [link for link in soup('a') if nlp.is_sentence(link.text, 'cssfind')]
