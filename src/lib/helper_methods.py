@@ -10,3 +10,6 @@ def remove_null_values(list):
 def random_user_agent_header():
     user_agent = UserAgent.random_user_agent()
     return {'User-Agent':user_agent}
+
+def do_nothing():
+    pass
