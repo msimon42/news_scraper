@@ -11,8 +11,7 @@ class CssFinder:
         headers = random_user_agent_header()
         r = requests.get(url, headers=headers).content
         soup = BeautifulSoup(r, 'html.parser')
-        nlp = NLProcessor()
-        links_with_sentence = [link for link in soup('a') if nlp.is_sentence(link.text, 'cssfind')]
+        links_with_sentence = [link for link in soup('a') if self.nlp.is_sentence(link.text, 'cssfind')]
         link_classes = Counter()
 
         for link in links_with_sentence:
