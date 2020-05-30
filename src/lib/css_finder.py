@@ -4,8 +4,7 @@ from .nl_processor import NLProcessor
 from collections import Counter
 
 class CssFinder:
-    @classmethod
-    def find_tag(cls, url):
+    def find_tag(self, url):
         headers = random_user_agent_header()
         r = requests.get(url, headers=headers).content
         soup = BeautifulSoup(r, 'html.parser')
