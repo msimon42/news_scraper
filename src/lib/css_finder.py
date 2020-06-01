@@ -9,26 +9,15 @@ class CssFinder:
         self.link_classes = Counter()
 
     def find_tag(self, url):
-        headers = random_user_agent_header()
+        headers = UserAgent.random_user_agent_header()
         r = requests.get(url, headers=headers).content
         soup = BeautifulSoup(r, 'html.parser')
         links_with_sentence = [link for link in soup('a') if self.nlp.is_sentence(link.text, 'cssfind')]
-        link_classes = Counter()
 
         for link in links_with_sentence:
-            if link.get('class') is None:
-                try:
-                    css_class = link.parent.get('class')[0]
-                except:
-                    continue
+            self.__cssfind_hash_table(object=link)['link_class'][link.get('class') is None]
 
-                link_classes[css_class] += 1 if self.nlp.phrase_length(link.parent.text) < 10
-                continue
-
-            css_class = link.get('class')[0]
-            link_classes[css_class] += 1
-
-        return link_classes.most_common(1)[0][0]
+        return self.link_classes.most_common(1)[0][0]
 
     def __cssfind_hash_table(self, **kwargs):
         table = {
@@ -46,17 +35,20 @@ class CssFinder:
 
     def __class_in_parent(self, link):
         try:
-            return link.parent.get('class')[0]
+            css_class = link.parent.get('class')[0]
+            self.__cssfind_hash_table(object=css_class)['is_not_paragraph'][self.nlp.phrase_length(link.parent.text) < 15]
         except:
             return None
 
     def __class_in_link(self, link):
-        return link.get('class')[0]
+        try:
+            css_class = link.get('class')[0]
+            self.__cssfind_hash_table(object=css_class)['is_not_paragraph'][self.nlp.phrase_length(link.text) < 15]
+        except:
+            return None
+
 
     def __update_counter(self, css_class):
-        self.link_classes[css_class] += 1            
+        self.link_classes[css_class] += 1
 
-
-
-
-from .helper_methods import *
+from src.models import *
