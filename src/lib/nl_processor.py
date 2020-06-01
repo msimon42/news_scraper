@@ -32,6 +32,9 @@ class NLProcessor:
     def phrase_length(self, phrase):
         return len(self.nlp(phrase))
 
+    def token_iscapitaized(self, token):
+        return token.text[0].isupper()    
+
     def required_pos(self):
         return {'NOUN', 'VERB', 'DET'}
 
