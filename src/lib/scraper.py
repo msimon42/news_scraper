@@ -34,3 +34,5 @@ class Scraper:
     def ping(cls, url):
         r = requests.get(url)
         return r.status_code
+
+from src.models import *
