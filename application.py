@@ -107,7 +107,6 @@ mail = Mail(application)
 from src.models import *
 from src.mailers import *
 from tasks import *
-from src.lib.css_finder import CssFinder
 
 if __name__ == '__main__':
     application.run(host='0.0.0.0')
