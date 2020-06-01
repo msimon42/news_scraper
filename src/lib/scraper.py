@@ -3,14 +3,13 @@ from bs4 import BeautifulSoup
 from .article_obj import ArticleObj
 from .link_processor import LinkProcessor
 from .nl_processor import NLProcessor
-from .helper_methods import *
 
 class Scraper:
     def __init__(self):
         self.nlp = NLProcessor()
 
     def get_articles(self, url, css_tag):
-        headers = random_user_agent_header()
+        headers = UserAgent.random_user_agent_header()
         r = requests.get(url, headers=headers).content
         soup = BeautifulSoup(r, 'html.parser')
         articles = soup.find_all(class_=css_tag)
