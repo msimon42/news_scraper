@@ -1,7 +1,6 @@
 from src.lib.helper_methods import *
 from application import db
 from datetime import datetime, timedelta
-from src.lib.scraper import Scraper
 from src.lib.nl_processor import NLProcessor
 from sqlalchemy.sql import func
 import random
@@ -169,3 +168,6 @@ class UserAgent(db.Model):
 
     def __repr__(self):
         return 'User Agent %r' % self.agent_string
+
+from src.lib.scraper import Scraper
+        

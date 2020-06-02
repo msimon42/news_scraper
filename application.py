@@ -3,7 +3,6 @@ from flask_mail import Mail, Message
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 from celery import Celery
-from src.lib.scraper import Scraper
 from src.lib.article_serializer import ArticleSerializer
 from src.forms import *
 from dotenv import load_dotenv
@@ -107,6 +106,8 @@ mail = Mail(application)
 from src.models import *
 from src.mailers import *
 from tasks import *
+from src.lib.scraper import Scraper
+
 
 if __name__ == '__main__':
     application.run(host='0.0.0.0')
