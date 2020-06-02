@@ -1,8 +1,8 @@
+from src.lib.helper_methods import *
 from application import db
 from datetime import datetime, timedelta
-from src.lib.scraper import Scraper
 from src.lib.nl_processor import NLProcessor
-from src.lib.helper_methods import *
+from sqlalchemy.sql import func
 import random
 import secrets
 
@@ -154,3 +154,20 @@ class SentArticle(db.Model):
 
     def __repr__(self):
         return 'SentArticle, %r' % self.id
+
+class UserAgent(db.Model):
+    __tablename__ = 'user_agents'
+
+    id = db.Column(db.Integer, primary_key=True)
+    agent_string = db.Column(db.String)
+
+    @classmethod
+    def random_user_agent_header(cls):
+        random_agent = cls.query.order_by(func.random()).first()
+        return {'User-Agent':random_agent.agent_string}
+
+    def __repr__(self):
+        return 'User Agent %r' % self.agent_string
+
+from src.lib.scraper import Scraper
+        

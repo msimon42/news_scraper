@@ -10,7 +10,8 @@ class Scraper:
         self.nlp = NLProcessor()
 
     def get_articles(self, url, css_tag):
-        r = requests.get(url).content
+        headers = UserAgent.random_user_agent_header()
+        r = requests.get(url, headers=headers).content
         soup = BeautifulSoup(r, 'html.parser')
         articles = soup.find_all(class_=css_tag)
         article_list = []
@@ -20,7 +21,7 @@ class Scraper:
                 for link in article_link_elements:
                     article_list.append(self.__filter_and_convert_link_element(link, url))
 
-            elif article.name == 'a': ##This was apparently necessary to fix a bug. 
+            elif article.name == 'a': ##This was apparently necessary to fix a bug.
                 article_list.append(self.__filter_and_convert_link_element(article, url))
 
         return remove_null_values(article_list)
@@ -34,3 +35,5 @@ class Scraper:
     def ping(cls, url):
         r = requests.get(url)
         return r.status_code
+
+from src.models import UserAgent
