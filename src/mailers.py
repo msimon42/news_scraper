@@ -6,7 +6,8 @@ class ConfirmationMailer:
     @classmethod
     def send_message(cls, recipient_email, recipient_token):
         message = Message('News Scraper -- Confirm your email address',
-                           recipients=[recipient_email])
+                           recipients=[recipient_email],
+                           sender='confirm@news-scraper.com')
 
         message.html = render_template('mail_templates/confirmation.html', uid=recipient_token)
         mail.send(message)
