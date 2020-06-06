@@ -75,6 +75,10 @@ def create_application(test_config=None):
 
         return render_template('subscribe.html', title='Subscribe', form=form)
 
+    @application.route('/unsubscribe')
+    def unsubscribe():
+
+
     @application.route('/api/request-articles', methods=['POST'])
     def request_articles():
         data = request.json
