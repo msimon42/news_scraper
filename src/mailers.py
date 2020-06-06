@@ -19,5 +19,5 @@ class ArticlesMailer:
                            recipients=[recipient.email],
                            sender='news@news-scraper.com')
 
-        message.html = render_template('mail_templates/daily_articles.html', uid=recipient.id, articles=articles)
+        message.html = render_template('mail_templates/daily_articles.html', uid=recipient.token, articles=articles)
         mail.send(message)
