@@ -13,7 +13,18 @@ class GetArticles(Command):
 
         for link in links:
             try:
-                link.get_todays_articles()
+                articles = Scraper().get_articles(link.url, link.css_tag)
+                for article in articles:
+                    exists = Article.query.filter_by(url=article.link).scalar()
+                    if exists is None:
+                        new_article = Article(link_id=self.id,
+                                              url=article.link,
+                                              headline=article.headline)
+
+                        db.session.add(new_article)
+                        db.session.commit()
+                    else:
+                        continue
                 print(f'Articles collected for {link.url}')
             except:
                 print(f'Failed to collect articles for {link.url}. Please contact your systems administrator.')
