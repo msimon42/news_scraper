@@ -12,5 +12,5 @@ class TestScraper:
 
     def test_get_articles(self):
         response = self.scraper.get_articles('https://www.slashdot.org', 'story-title')
-        assert type(response) == "<class 'list'>"
-        assert type(response[0]) == "<class 'ArticleObj'>"
+        assert str(type(response)) == "<class 'list'>"
+        assert str(type(response[0])) == "<class 'ArticleObj'>"
