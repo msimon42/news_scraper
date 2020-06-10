@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from .nl_processor import NLProcessor
+from .helper_methods import *
 from collections import Counter
 
 class CssFinder:
@@ -51,4 +52,4 @@ class CssFinder:
     def __update_counter(self, css_class):
         self.link_classes[css_class] += 1
 
-from src.models import *
+from src.models import UserAgent
