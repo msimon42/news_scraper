@@ -5,8 +5,8 @@ class TestCssFinder:
         self.css_finder = CssFinder()
 
     def test_find_tag(self):
-        url1 = 'https://asiatimes.com/world/usa/'
-        url2 = 'https://slashdot.org/'
+        url1 = 'https://www.asiatimes.com/world/usa/'
+        url2 = 'https://www.slashdot.org/'
 
         assert self.css_finder.find_tag(url2) == 'story-title'
         assert self.css_finder.find_tag(url1) == 'entry-title'
