@@ -9,8 +9,8 @@ class Scraper:
     def __init__(self):
         self.nlp = NLProcessor()
 
-    def get_articles(self, url, css_tag):
-        headers = UserAgent.random_user_agent_header()
+    def get_articles(self, url, css_tag, user_agent=None):
+        headers = user_agent
         r = requests.get(url, headers=headers).content
         soup = BeautifulSoup(r, 'html.parser')
         articles = soup.find_all(class_=css_tag)
@@ -35,5 +35,3 @@ class Scraper:
     def ping(cls, url):
         r = requests.get(url)
         return r.status_code
-
-from src.models import UserAgent

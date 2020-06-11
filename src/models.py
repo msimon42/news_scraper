@@ -76,21 +76,6 @@ class Link(db.Model):
     subscribed_users = db.relationship('UserSubscription', backref='link')
     articles = db.relationship('Article', backref='link')
 
-    def get_todays_articles(self):
-        articles = Scraper().get_articles(self.url, self.css_tag)
-        for article in articles:
-            exists = Article.query.filter_by(url=article.link).scalar()
-            if exists is None:
-                new_article = Article(link_id=self.id,
-                                      url=article.link,
-                                      headline=article.headline)
-
-                db.session.add(new_article)
-                db.session.commit()
-            else:
-                continue
-
-
 
     def articles_from_n_days(self, n):
         n_days_ago = n_days_ago(n)
@@ -168,6 +153,3 @@ class UserAgent(db.Model):
 
     def __repr__(self):
         return 'User Agent %r' % self.agent_string
-
-from src.lib.scraper import Scraper
-        
