@@ -3,6 +3,7 @@ from application import db
 from src.models import *
 from src.mailers import *
 from src.lib.css_finder import CssFinder
+from src.lib.scraper import Scraper
 import os
 
 class GetArticles(Command):
@@ -12,13 +13,13 @@ class GetArticles(Command):
         links = Link.with_valid_css_tag()
 
         for link in links:
-            try:
+            if True:
                 user_agent = UserAgent.random_user_agent_header()
                 articles = Scraper().get_articles(link.url, link.css_tag, user_agent)
                 for article in articles:
                     exists = Article.query.filter_by(url=article.link).scalar()
                     if exists is None:
-                        new_article = Article(link_id=self.id,
+                        new_article = Article(link_id=link.id,
                                               url=article.link,
                                               headline=article.headline)
 
@@ -27,7 +28,7 @@ class GetArticles(Command):
                     else:
                         continue
                 print(f'Articles collected for {link.url}')
-            except:
+            else:
                 print(f'Failed to collect articles for {link.url}. Please contact your systems administrator.')
 
         print('done')
