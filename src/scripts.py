@@ -13,7 +13,8 @@ class GetArticles(Command):
 
         for link in links:
             try:
-                articles = Scraper().get_articles(link.url, link.css_tag)
+                user_agent = UserAgent.random_user_agent_header()
+                articles = Scraper().get_articles(link.url, link.css_tag, user_agent)
                 for article in articles:
                     exists = Article.query.filter_by(url=article.link).scalar()
                     if exists is None:
