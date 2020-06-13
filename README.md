@@ -1,4 +1,5 @@
 # news_scraper
+[![Build Status](https://travis-ci.org/msimon42/news_scraper.svg?branch=master)](https://travis-ci.org/msimon42/news_scraper)
 ### Link to production site: http://www.news-scraper.com/
 
 News Scraper is an app that allows users to provide an email address and links to their favorite blogs or news sites, and sends an email containing articles from those sites every day.  
