@@ -7,6 +7,7 @@ class NLProcessor:
         self.nlp = spacy.load('en_core_web_sm')
 
     def is_sentence(self, phrase, *args, **kwargs):
+        filtered_phrase = phrase.replace('\n', '')
         pos = set(self.find_parts_of_speech(phrase))
         deps = set(self.find_syntactic_relation(phrase))
         phrase_length = self.phrase_length(phrase)
