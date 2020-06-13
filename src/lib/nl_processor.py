@@ -8,10 +8,10 @@ class NLProcessor:
 
     def is_sentence(self, phrase, *args, **kwargs):
         filtered_phrase = phrase.replace('\n', '')
-        pos = set(self.find_parts_of_speech(phrase))
-        deps = set(self.find_syntactic_relation(phrase))
-        phrase_length = self.phrase_length(phrase)
-        first_token = self.nth_token(phrase, 0)
+        pos = set(self.find_parts_of_speech(filtered_phrase))
+        deps = set(self.find_syntactic_relation(filtered_phrase))
+        phrase_length = self.phrase_length(filtered_phrase)
+        first_token = self.nth_token(filtered_phrase, 0)
 
         results = [
             (len(pos.intersection(self.required_pos())) >= 2),
