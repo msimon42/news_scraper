@@ -16,7 +16,7 @@ class NLProcessor:
         results = [
             (len(pos.intersection(self.required_pos())) >= 2),
             (len(deps.intersection(self.required_deps())) >= 2),
-            ((phrase_length > 6 and phrase_length < 12) or ('cssfind' not in args)),
+            ((phrase_length > 6 and phrase_length < 17) or ('cssfind' not in args)),
             ((self.token_iscapitaized(first_token)) or ('cssfind' not in args))
         ]
         return all(results)
