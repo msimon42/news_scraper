@@ -40,9 +40,11 @@ class FillCssTags(Command):
         links = Link.with_empty_css_tag()
         css_finder = CssFinder()
         for link in links:
+            headers = UserAgent.random_user_agent_header()
             url = link.url
+
             try:
-                tag = css_finder.find_tag(url)
+                tag = css_finder.find_tag(url, headers)
                 print(f'Collected tag for {url}')
             except:
                 tag = 'no tag'
