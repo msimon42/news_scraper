@@ -52,4 +52,4 @@ class NLProcessor:
         return {'NOUN', 'VERB', 'DET'}
 
     def required_deps(self):
-        return {'ROOT', 'nsubj', 'dobj'}
+        return {'ROOT', 'nsubj', 'dobj', 'pobj'}
