@@ -25,6 +25,8 @@ class TestNLProcessor:
     def test_preprocess_phrase(self):
         str1 = "\n   Hello frens"
         str2 = "This is a phrase\n"
+        str3 = "\n\n\t   Denver Post uses tabs lol\t\t"
 
         assert self.nlp.preprocess_phrase(str1) == 'Hello frens'
         assert self.nlp.preprocess_phrase(str2) == 'This is a phrase'
+        assert self.nlp.preprocess_phrase(str3) == 'Denver Post uses tabs lol'
