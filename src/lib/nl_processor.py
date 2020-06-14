@@ -23,9 +23,12 @@ class NLProcessor:
         return all(results)
 
     def preprocess_phrase(self, phrase):
-        phrase = phrase.replace('\n', '')
-        phrase = remove_spaces_from_beginning_str(phrase)
-        return phrase
+        filtered = phrase.replace('\n', '')
+        return remove_spaces_from_beginning_str(filtered)
+
+
+
+
 
     def find_parts_of_speech(self, phrase):
         tokenized_phrase = self.tokens_for(phrase)
