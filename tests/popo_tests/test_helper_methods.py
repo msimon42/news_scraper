@@ -13,7 +13,9 @@ class TestHelperMethods:
         str1 = '    Hello guys'
         str2 = 'This is a string'
         str3 = '       I am a phrase'
+        str4 = ''
 
         assert remove_spaces_from_beginning_str(str1) == 'Hello guys'
         assert remove_spaces_from_beginning_str(str2) == 'This is a string'
         assert remove_spaces_from_beginning_str(str3) == 'I am a phrase'
+        assert remove_spaces_from_beginning_str(str4) == ''
