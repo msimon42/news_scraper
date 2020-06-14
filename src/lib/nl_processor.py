@@ -23,7 +23,7 @@ class NLProcessor:
         return all(results)
 
     def preprocess_phrase(self, phrase):
-        filtered = phrase.replace('\n', '')
+        filtered = phrase.replace('\n', '').replace('\t', '')
         return remove_spaces_from_beginning_str(filtered)
 
     def find_parts_of_speech(self, phrase):
