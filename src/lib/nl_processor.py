@@ -26,10 +26,6 @@ class NLProcessor:
         filtered = phrase.replace('\n', '')
         return remove_spaces_from_beginning_str(filtered)
 
-
-
-
-
     def find_parts_of_speech(self, phrase):
         tokenized_phrase = self.tokens_for(phrase)
         token_pos = [ token.pos_ for token in tokenized_phrase ]
