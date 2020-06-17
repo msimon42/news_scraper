@@ -74,12 +74,17 @@ class TestNewsletter(Command):
     "Sends a test newsletter"
 
     def run(self):
-        articles = Article.from_n_days_ago(2)
-        user = User.query.get(18)
-        user_articles = user.select_articles_for_today(articles)
-        ArticlesMailer.send_message(user, user_articles)
+        try:
+            articles = Article.from_n_days_ago(2)
+            user = User.query.get(18)
+            user_articles = user.select_articles_for_today(articles)
+            ArticlesMailer.send_message(user, user_articles)
 
-        print('Done')
+            print('Done')
+            return True
+        except:
+            print('An Exception occured. Check logs for more details.')
+            return False     
 
 class TestConfirmationEmail(Command):
     "Sends a test confirmation email"
