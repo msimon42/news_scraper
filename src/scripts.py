@@ -84,7 +84,7 @@ class TestNewsletter(Command):
             return True
         except:
             print('An Exception occured. Check logs for more details.')
-            return False     
+            return False
 
 class TestConfirmationEmail(Command):
     "Sends a test confirmation email"
@@ -95,5 +95,7 @@ class TestConfirmationEmail(Command):
             token = os.getenv('ADMIN_TOKEN')
             ConfirmationMailer.send_message(email, token)
             print('Done')
+            return True
         except:
             print('An exception occured.')
+            return False
