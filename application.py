@@ -83,6 +83,9 @@ def create_application(test_config=None):
         db.session.commit()
         return render_template('unsubsrcibe_return.html')
 
+    @application.route('/dashboard')
+    def dashboard():    
+
     @application.route('/api/request-articles', methods=['POST'])
     def request_articles():
         data = request.json
