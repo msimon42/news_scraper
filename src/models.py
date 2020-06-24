@@ -22,6 +22,10 @@ class User(db.Model):
     def confirmed_users(cls):
         return cls.query.filter_by(confirmed=True)
 
+    @classmethod
+    def find_by_token(cls, token):
+        return cls.query.filter_by(token=token).scalar()
+
     def sent_article_ids(self, days_ago):
         result = db.engine.execute('SELECT articles.id FROM articles ' +
                                    'INNER JOIN sent_articles ON sent_articles.article_id = articles.id ' +
