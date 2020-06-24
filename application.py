@@ -82,8 +82,26 @@ def create_application(test_config=None):
         db.session.commit()
         return render_template('unsubsrcibe_return.html')
 
-    @application.route('/dashboard')
+    @application.route('/dashboard', methods=['GET', 'POST'])
     def dashboard():
+        user = User.find_by_token(request.args.get('token'))
+        form = DashboardForm()
+        form.email.data = user.email
+        form.links.data = user.link_urls()
+        form.filters.data = user.filters
+
+        if form.validate_on_submit():
+            form_data = {
+                'email_address': request.form['email'],
+                'links': request.form['links'].split(','),
+                'filters': request.form['filters'].split(',')
+            }
+
+            update_user(user, form_data)
+
+        return render_template('dashboard.html', form=form)
+
+
 
 
     @application.route('/api/request-articles', methods=['POST'])
