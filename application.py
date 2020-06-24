@@ -77,14 +77,14 @@ def create_application(test_config=None):
 
     @application.route('/unsubscribe')
     def unsubscribe():
-        token = request.args.get('token')
-        user = User.query.filter_by(token=token).scalar()
+        user = User.find_by_token(request.args.get('token'))
         user.confirmed = False
         db.session.commit()
         return render_template('unsubsrcibe_return.html')
 
     @application.route('/dashboard')
-    def dashboard():    
+    def dashboard():
+
 
     @application.route('/api/request-articles', methods=['POST'])
     def request_articles():
