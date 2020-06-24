@@ -35,7 +35,7 @@ class User(db.Model):
 
         return [ article.id for article in result ]
 
-    def links(self):
+    def link_ids(self):
         result = db.engine.execute('SELECT links.id FROM links ' +
                                    'INNER JOIN user_subscriptions ON links.id = user_subscriptions.link_id ' +
                                    'INNER JOIN users ON users.id = user_subscriptions.user_id ' +
@@ -46,7 +46,7 @@ class User(db.Model):
 
     def select_articles_for_today(self, articles):
         article_ids = self.sent_article_ids(2)
-        links = self.links()
+        links = self.link_ids()
 
         eligible_articles = [ article for article in articles if article.link_id in links and article.id not in article_ids]
         try:
