@@ -126,6 +126,15 @@ def create_application(test_config=None):
             return f'Could not subscribe to {link}. It is possible that this site blocks web scraping.'
 
 
+    def update_user(user, form_data):
+        pass
+
+    def update_user_table(user, method, expected):
+        return {
+            True:
+        }
+
+
     return application
 
 application = create_application()
