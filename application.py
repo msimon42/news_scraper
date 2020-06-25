@@ -114,7 +114,7 @@ def create_application(test_config=None):
 
     ## HELPER METHODS ##
 
-    def subscription_attempt(link, user):
+    def subscription_attempt(link, user_token):
         status_code = Scraper.ping(link)
         if status_code == 200:
             new_link = Link(url=link)
@@ -129,9 +129,7 @@ def create_application(test_config=None):
 
 
     def update_user(user, form_data):
-        update_user_table('link_urls', form_data['links'])[form_data['links']==user.link_urls()]
-        update_user_table('email', form_data['email'])[form_date['email']==user.email]
-        update_user_table('')
+        update_links(user, form_data['links'])
 
     def update_user_table(user, method, expected):
         return {
@@ -142,6 +140,7 @@ def create_application(test_config=None):
     def update_links(user, links):
         links_list = links.split(',')
         user_links = user.link_urls()
+        actions = []
 
         new_links = np.setdiff1d(links_list,user_links)
         unsubed_links = np.setdiff1d(user_links,links_list)
@@ -151,9 +150,9 @@ def create_application(test_config=None):
             if link_ is None:
                 try:
                     response = subscription_attempt(link, user)
-                    flash(response)
+                    actions.append(response)
                 except:
-                    flash(f"Could not connect to {link}. All urls must be preceded by 'http://' or 'https://'.")
+                    actions.append(f"Could not connect to {link}. All urls must be preceded by 'http://' or 'https://'.")
 
                 continue
 
@@ -166,7 +165,9 @@ def create_application(test_config=None):
             us = UserSubscription.query.filter_by(link_id=link_.id, user_id=user.id).scalar()
             db.session.delete(us)
             db.session.commit()
+            actions.append(f'Unsubscribed from {link}')
 
+        return actions
 
     return application
 
