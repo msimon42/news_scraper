@@ -141,9 +141,11 @@ def create_application(test_config=None):
         links_list = links.split(',')
         user_links = user.link_urls()
 
+        new_links = np.setdiff1d(links_list,user_links)
+        unsubed_links = np.setdiff1d(user_links,links_list)
 
-        for link in links:
-            link_ = Link.query.filter_by(url=link).scalar()
+        for link in new_links:
+            link_ = Link.find_by_url(link)
             if link_ is None:
                 try:
                     response = subscription_attempt(link, user)
@@ -153,6 +155,15 @@ def create_application(test_config=None):
 
                 continue
 
+            us = UserSubscription(link_id=link_.id, user_id=new_user.id)
+            db.session.add(us)
+            db.session.commit()
+
+        for link in unsubed_links:
+            link_ = Link.find_by_url(link)
+            us = UserSubscription.query.filter_by(link_id=link_.id, user_id=user.id).scalar()
+            db.session.delete(us)
+            db.session.commit()
 
 
     return application
