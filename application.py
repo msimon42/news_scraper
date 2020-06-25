@@ -7,7 +7,7 @@ from src.lib.article_serializer import ArticleSerializer
 from src.forms import *
 from dotenv import load_dotenv
 import os
-
+import numpy as np
 
 
 def create_application(test_config=None):
@@ -127,12 +127,32 @@ def create_application(test_config=None):
 
 
     def update_user(user, form_data):
-        pass
+        update_user_table('link_urls', form_data['links'])[form_data['links']==user.link_urls()]
+        update_user_table('email', form_data['email'])[form_date['email']==user.email]
+        update_user_table('')
 
     def update_user_table(user, method, expected):
         return {
-            True:
+            False: getattr(user, method) = expected,
+            True: do_nothing()
         }
+
+    def update_links(user, links):
+        links_list = links.split(',')
+        user_links = user.link_urls()
+
+
+        for link in links:
+            link_ = Link.query.filter_by(url=link).scalar()
+            if link_ is None:
+                try:
+                    response = subscription_attempt(link, user)
+                    flash(response)
+                except:
+                    flash(f"Could not connect to {link}. All urls must be preceded by 'http://' or 'https://'.")
+
+                continue
+
 
 
     return application
