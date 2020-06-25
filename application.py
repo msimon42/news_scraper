@@ -48,26 +48,28 @@ def create_application(test_config=None):
         form = SubscriptionForm()
         if form.validate_on_submit():
             email_address = request.form['email']
-            links = request.form['links'].split(',')
+            links = request.form['links']
 
             new_user = User(email=email_address)
             db.session.add(new_user)
             db.session.commit()
 
-            for link in links:
-                link_ = Link.query.filter_by(url=link).scalar()
-                if link_ is None:
-                    try:
-                        response = subscription_attempt(link, new_user)
-                        flash(response)
-                    except:
-                        flash(f"Could not connect to {link}. All urls must be preceded by 'http://' or 'https://'.")
+            # for link in links:
+            #     link_ = Link.query.filter_by(url=link).scalar()
+            #     if link_ is None:
+            #         try:
+            #             response = subscription_attempt(link, new_user)
+            #             flash(response)
+            #         except:
+            #             flash(f"Could not connect to {link}. All urls must be preceded by 'http://' or 'https://'.")
+            #
+            #         continue
+            #
+            #     us = UserSubscription(link_id=link_.id, user_id=new_user.id)
+            #     db.session.add(us)
+            #     db.session.commit()
 
-                    continue
-
-                us = UserSubscription(link_id=link_.id, user_id=new_user.id)
-                db.session.add(us)
-                db.session.commit()
+            update_links(new_user, links)
 
             flash('You are subscribed to news scraper!')
             send_confirmation_email.delay(new_user.email, new_user.token)
