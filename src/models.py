@@ -61,7 +61,7 @@ class User(db.Model):
                                    f'WHERE users.id = {self.id}')
 
         filter_words = [ filter.word for filter in result ]
-        return filter_words                                                             
+        return filter_words
 
     def select_articles_for_today(self, articles):
         article_ids = self.sent_article_ids(2)
@@ -114,7 +114,7 @@ class Link(db.Model):
 
     @classmethod
     def find_by_url(cls, url):
-        cls.query.filter_by(url=url).scalar()
+        return cls.query.filter_by(url=url).scalar()
 
 
     def __repr__(self):
