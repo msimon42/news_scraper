@@ -17,6 +17,7 @@ class User(db.Model):
 
     subscribed_links = db.relationship('UserSubscription', backref='user')
     recieved_articles = db.relationship('SentArticle', backref='user')
+    filters = db.relationship('UserFilter', backref='user')
 
     @classmethod
     def confirmed_users(cls):
@@ -169,6 +170,8 @@ class Filter(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     word = db.Column(db.String)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user_filters = db.relationship('UserFilter', backref='filter')
 
     @classmethod
     def find_by_word(cls, word):
