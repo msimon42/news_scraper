@@ -52,7 +52,16 @@ class User(db.Model):
                                    f'WHERE users.id = {self.id}')
 
         urls = [ link.url for link in result ]
-        return urls                               
+        return urls
+
+    def filters(self):
+        result = db.engine.execute('SELECT filters.id FROM filters ' +
+                                   'INNER JOIN user_filters ON filters.id = user_filters.filter_id ' +
+                                   'INNER JOIN users ON users.id = user_filters.user_id ' +
+                                   f'WHERE users.id = {self.id}')
+
+        filter_words = [ filter.word for filter in result ]
+        return filter_words                                                             
 
     def select_articles_for_today(self, articles):
         article_ids = self.sent_article_ids(2)
