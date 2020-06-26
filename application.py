@@ -54,22 +54,7 @@ def create_application(test_config=None):
             db.session.add(new_user)
             db.session.commit()
 
-            # for link in links:
-            #     link_ = Link.query.filter_by(url=link).scalar()
-            #     if link_ is None:
-            #         try:
-            #             response = subscription_attempt(link, new_user)
-            #             flash(response)
-            #         except:
-            #             flash(f"Could not connect to {link}. All urls must be preceded by 'http://' or 'https://'.")
-            #
-            #         continue
-            #
-            #     us = UserSubscription(link_id=link_.id, user_id=new_user.id)
-            #     db.session.add(us)
-            #     db.session.commit()
-
-            update_links(new_user, links)
+            actions = update_links(new_user, links)
 
             flash('You are subscribed to news scraper!')
             send_confirmation_email.delay(new_user.email, new_user.token)
@@ -164,7 +149,7 @@ def create_application(test_config=None):
             filter_ = filter.find_by_word(filter)
             user_filter = UserFilter.query.find_by(user_id=user.id, filter_id=filter_.id)
             db.session.delete(user_filter)
-            db.session.commit()        
+            db.session.commit()
 
     def update_links(user, links):
         links_list = links.split(',')
