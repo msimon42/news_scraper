@@ -130,12 +130,41 @@ def create_application(test_config=None):
 
     def update_user(user, form_data):
         update_links(user, form_data['links'])
+        update_email(user, form_data['email'])[user.email == form_data['email']]
+        update_filters(user, form_data['filters'])
 
-    def update_user_table(user, method, expected):
+    def update_email(user, new_email):
         return {
-            False: getattr(user, method) = expected,
+            False: user.update_email(new_email),
             True: do_nothing()
         }
+
+    def update_filters(user, filters):
+        filters = filters.split(',')
+        current_filters = user.filters()
+
+        new_filters = np.setdiff1d(filters,current_filters)
+        removed_filters = np.setdiff1d(current_filters,filters)
+
+        for filter in new_filters:
+            filter_ = filter.find_by_word(filter)
+            if filter_ is None:
+                new_filter = Filter(word=word)
+                db.session.add(new_filter)
+                db.session.commit()
+                new_user_filter = UserFilter(user_id=user.id, filter_id=new_filter.id)
+                db.session.add(new_user_filter)
+                db.session.commit()
+            else:
+                new_user_filter = UserFilter(user_id=user.id, filter_id=filter_.id)
+                db.session.add(new_user_filter)
+                db.session.commit()
+
+        for filter in removed_filters:
+            filter_ = filter.find_by_word(filter)
+            user_filter = UserFilter.query.find_by(user_id=user.id, filter_id=filter_.id)
+            db.session.delete(user_filter)
+            db.session.commit()        
 
     def update_links(user, links):
         links_list = links.split(',')
