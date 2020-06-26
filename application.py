@@ -170,7 +170,7 @@ def create_application(test_config=None):
 
                 continue
 
-            us = UserSubscription(link_id=link_.id, user_id=new_user.id)
+            us = UserSubscription(link_id=link_.id, user_id=user.id)
             db.session.add(us)
             db.session.commit()
 
