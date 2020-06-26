@@ -168,6 +168,7 @@ class Filter(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     word = db.Column(db.String)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     @classmethod
     def find_by_word(cls, word):
@@ -175,3 +176,14 @@ class Filter(db.Model):
 
     def __repr__(self):
         return 'Filter %r' % self.word
+
+class UserFilter(db.Model):
+    __tablename__ = 'user_filters'
+
+    id = db.Column(db.Integer, primary_key=True)
+    filter_id = db.Column(db.Integer, db.ForeignKey('filters.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return 'UserFilter %r' % self.id
