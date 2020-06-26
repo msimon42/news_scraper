@@ -161,3 +161,13 @@ class UserAgent(db.Model):
 
     def __repr__(self):
         return 'User Agent %r' % self.agent_string
+
+
+class Filter(db.Model):
+    __tablename__ = 'filters'
+
+    id = db.Column(db.Integer, primary_key=True)
+    word = db.Column(db.String)
+
+    def __repr__(self):
+        return 'Filter %r' % self.word
