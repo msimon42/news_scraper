@@ -45,6 +45,15 @@ class User(db.Model):
         ids = [ link.id for link in result ]
         return ids
 
+    def link_urls(self):
+        result = db.engine.execute('SELECT links.id FROM links ' +
+                                   'INNER JOIN user_subscriptions ON links.id = user_subscriptions.link_id ' +
+                                   'INNER JOIN users ON users.id = user_subscriptions.user_id ' +
+                                   f'WHERE users.id = {self.id}')
+
+        urls = [ link.url for link in result ]
+        return urls                               
+
     def select_articles_for_today(self, articles):
         article_ids = self.sent_article_ids(2)
         links = self.link_ids()
