@@ -147,7 +147,7 @@ def create_application(test_config=None):
 
         for filter in removed_filters:
             filter_ = filter.find_by_word(filter)
-            user_filter = UserFilter.query.find_by(user_id=user.id, filter_id=filter_.id)
+            user_filter = UserFilter.query.filter_by(user_id=user.id, filter_id=filter_.id).scalar()
             db.session.delete(user_filter)
             db.session.commit()
 
