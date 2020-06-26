@@ -169,5 +169,9 @@ class Filter(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     word = db.Column(db.String)
 
+    @classmethod
+    def find_by_word(cls, word):
+        return cls.query.filter_by(word=word).scalar()
+
     def __repr__(self):
         return 'Filter %r' % self.word
