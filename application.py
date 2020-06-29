@@ -80,7 +80,7 @@ def create_application(test_config=None):
         if form.validate_on_submit():
             form_data = {
                 'email_address': request.form['email'],
-                'links': request.form['links'].split(','),
+                'links': request.form['links'],
                 'filters': request.form['filters'].split(',')
             }
 
