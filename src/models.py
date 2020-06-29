@@ -55,7 +55,7 @@ class User(db.Model):
         return urls
 
     def filters(self):
-        result = db.engine.execute('SELECT filters.id FROM filters ' +
+        result = db.engine.execute('SELECT filters.* FROM filters ' +
                                    'INNER JOIN user_filters ON filters.id = user_filters.filter_id ' +
                                    'INNER JOIN users ON users.id = user_filters.user_id ' +
                                    f'WHERE users.id = {self.id}')
@@ -85,7 +85,7 @@ class User(db.Model):
 
     def update_email(self, new_email):
         self.email = new_email
-        db.session.commit()        
+        db.session.commit()
 
     def __repr__(self):
         return 'User %r' % self.id
