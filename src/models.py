@@ -83,6 +83,10 @@ class User(db.Model):
             db.session.add(sent_article)
             db.session.commit()
 
+    def update_email(self, new_email):
+        self.email = new_email
+        db.session.commit()        
+
     def __repr__(self):
         return 'User %r' % self.id
 
