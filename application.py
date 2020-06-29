@@ -75,13 +75,13 @@ def create_application(test_config=None):
         form = DashboardForm()
         form.email.data = user.email
         form.links.data = ','.join(user.link_urls())
-        form.filters.data = user.filters
+        form.filters.data = ','.join(user.filters())
 
         if form.validate_on_submit():
             form_data = {
-                'email_address': request.form['email'],
+                'email': request.form['email'],
                 'links': request.form['links'],
-                'filters': request.form['filters'].split(',')
+                'filters': request.form['filters']
             }
 
             update_user(user, form_data)
@@ -132,9 +132,9 @@ def create_application(test_config=None):
         removed_filters = np.setdiff1d(current_filters,filters)
 
         for filter in new_filters:
-            filter_ = filter.find_by_word(filter)
+            filter_ = Filter.find_by_word(filter)
             if filter_ is None:
-                new_filter = Filter(word=word)
+                new_filter = Filter(word=filter)
                 db.session.add(new_filter)
                 db.session.commit()
                 new_user_filter = UserFilter(user_id=user.id, filter_id=new_filter.id)
