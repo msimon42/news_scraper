@@ -74,7 +74,7 @@ def create_application(test_config=None):
         user = User.find_by_token(request.args.get('token'))
         form = DashboardForm()
         form.email.data = user.email
-        form.links.data = user.link_urls()
+        form.links.data = ','.join(user.link_urls())
         form.filters.data = user.filters
 
         if form.validate_on_submit():
