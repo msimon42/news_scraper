@@ -1,4 +1,4 @@
-from test.config_tests import *
+from tests.config_tests import *
 
 class TestDashboard:
     def test_for_successful_response(self, client):
