@@ -89,13 +89,14 @@ def create_application(test_config=None):
         return render_template('dashboard.html', form=form)
 
 
-
-
-    @application.route('/api/request-articles', methods=['POST'])
-    def request_articles():
+    @application.route('/api/scrape-articles', methods=['POST'])
+    def scrape_articles():
         data = request.json
         articles = Scraper.get_articles(data['url'], data['css-tag'])
         return ArticleSerializer.render_json(articles)
+
+
+
 
     ## HELPER METHODS ##
 
