@@ -17,10 +17,15 @@ class User(db.Model):
 
     subscribed_links = db.relationship('UserSubscription', backref='user')
     recieved_articles = db.relationship('SentArticle', backref='user')
+    filters = db.relationship('UserFilter', backref='user')
 
     @classmethod
     def confirmed_users(cls):
         return cls.query.filter_by(confirmed=True)
+
+    @classmethod
+    def find_by_token(cls, token):
+        return cls.query.filter_by(token=token).scalar()
 
     def sent_article_ids(self, days_ago):
         result = db.engine.execute('SELECT articles.id FROM articles ' +
@@ -31,7 +36,7 @@ class User(db.Model):
 
         return [ article.id for article in result ]
 
-    def links(self):
+    def link_ids(self):
         result = db.engine.execute('SELECT links.id FROM links ' +
                                    'INNER JOIN user_subscriptions ON links.id = user_subscriptions.link_id ' +
                                    'INNER JOIN users ON users.id = user_subscriptions.user_id ' +
@@ -40,9 +45,27 @@ class User(db.Model):
         ids = [ link.id for link in result ]
         return ids
 
+    def link_urls(self):
+        result = db.engine.execute('SELECT links.* FROM links ' +
+                                   'INNER JOIN user_subscriptions ON links.id = user_subscriptions.link_id ' +
+                                   'INNER JOIN users ON users.id = user_subscriptions.user_id ' +
+                                   f'WHERE users.id = {self.id}')
+
+        urls = [ link.url for link in result ]
+        return urls
+
+    def filters(self):
+        result = db.engine.execute('SELECT filters.* FROM filters ' +
+                                   'INNER JOIN user_filters ON filters.id = user_filters.filter_id ' +
+                                   'INNER JOIN users ON users.id = user_filters.user_id ' +
+                                   f'WHERE users.id = {self.id}')
+
+        filter_words = [ filter.word for filter in result ]
+        return filter_words
+
     def select_articles_for_today(self, articles):
         article_ids = self.sent_article_ids(2)
-        links = self.links()
+        links = self.link_ids()
 
         eligible_articles = [ article for article in articles if article.link_id in links and article.id not in article_ids]
         try:
@@ -59,6 +82,10 @@ class User(db.Model):
             sent_article = SentArticle(user_id=self.id, article_id=article.id)
             db.session.add(sent_article)
             db.session.commit()
+
+    def update_email(self, new_email):
+        self.email = new_email
+        db.session.commit()
 
     def __repr__(self):
         return 'User %r' % self.id
@@ -88,6 +115,10 @@ class Link(db.Model):
     @classmethod
     def with_valid_css_tag(cls):
         return cls.query.filter(cls.css_tag!='no tag', cls.css_tag!=None)
+
+    @classmethod
+    def find_by_url(cls, url):
+        return cls.query.filter_by(url=url).scalar()
 
 
     def __repr__(self):
@@ -153,3 +184,31 @@ class UserAgent(db.Model):
 
     def __repr__(self):
         return 'User Agent %r' % self.agent_string
+
+
+class Filter(db.Model):
+    __tablename__ = 'filters'
+
+    id = db.Column(db.Integer, primary_key=True)
+    word = db.Column(db.String)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user_filters = db.relationship('UserFilter', backref='filter')
+
+    @classmethod
+    def find_by_word(cls, word):
+        return cls.query.filter_by(word=word).scalar()
+
+    def __repr__(self):
+        return 'Filter %r' % self.word
+
+class UserFilter(db.Model):
+    __tablename__ = 'user_filters'
+
+    id = db.Column(db.Integer, primary_key=True)
+    filter_id = db.Column(db.Integer, db.ForeignKey('filters.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return 'UserFilter %r' % self.id

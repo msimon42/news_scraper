@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="full-screen">
+  <span id='sub-form'>
+  <form method='POST' action='' >
+    {{ form.hidden_tag() }}
+      <legend>
+        Update the values in this form to change your email address and subscription preferences.
+      </legend>
+      <div class='formfield'>
+        {{ form.email.label }}
+        {{ form.email(placeholder='email@example.com') }}
+      </div>
+      <div class='formfield'>
+        {{ form.links.label }}
+        {{ form.links(placeholder='https://www.example.com/news,http://www.news.org, etc.') }}
+      </div>
+      <div class='formfield'>
+        {{ form.filters.label }}
+        {{ form.filters(placeholder='coronavirus,trump, etc.') }}
+      </div>
+      <div id='button-div'>
+        {{ form.update(class_='button-line', id='submit-button') }}
+      </div>
+  </form>
+  </span>
+</div>
+{% endblock %}
