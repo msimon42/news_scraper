@@ -3,21 +3,39 @@ from .helper_methods import *
 class ArticlesRequestValidator:
     def __init__(self):
         pass
-        
+
     @classmethod
     def validate(cls, data):
         validator = cls()
         preprocessed_data = validator.__preprocess(data)
 
     def __preprocess(self, data):
-        try:
-            data['keywords']
-        except:
-            data['keywords'] = ''
+        valid_keys = ['keywords', 'endDate', 'startDate', 'amount']
 
-        try:
-            data['endDate']
-        except:
-            data['endDate'] = today()
+        data.setdefault('keywords', '')
+        data.setdefault('endDate', today())
+        data.setdefault('startDate', '')
+        data.setdefault('amount', 0)
+
+        for k, v in data:
+            if k not in valid_keys:
+                data[k] = None
 
         return data
+
+    def __valid_amount(self, data):
+        return data >= 10 or data <= 100
+
+    def __valid_date(self, data):
+        contains_dashes = '-' in data
+        values = data.split('-')
+        proper_format = len(values)==3
+
+        try:
+            valid_month = (Float(values[0]) > 0 and Float(values[0]) <= 12)
+            valid_day = (Float(values[1]) > 0 and Float(values[1]) <= 31)
+            valid_year = (Float(values[2]) >= 2020 and Float(values[2]) <= Float(current_year()))
+        except:
+            return False
+
+        return all([contains_dashes, proper_format, valid_month, valid_day, valid_year])        
