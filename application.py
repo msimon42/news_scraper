@@ -96,6 +96,12 @@ def create_application(test_config=None):
         return ArticleSerializer.render_json(articles)
 
 
+    @application.route('/api/request-articles', methods=['POST'])
+    def request_articles():
+        data = request.json
+            
+
+
 
 
     ## HELPER METHODS ##
