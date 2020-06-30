@@ -16,7 +16,10 @@ def remove_spaces_from_beginning_str(str):
         return str
 
 def today():
-    return datetime.now().strftime('%m-%d-%y')          
+    return datetime.now().strftime('%m-%d-%y')
+
+def current_year():
+    return datetime.now().year              
 
 def do_nothing():
     pass
