@@ -1,9 +1,13 @@
 from .helper_methods import *
 
 class ArticlesRequestValidator:
+    def __init__(self):
+        pass
+        
     @classmethod
     def validate(cls, data):
-        pass
+        validator = cls()
+        preprocessed_data = validator.__preprocess(data)
 
     def __preprocess(self, data):
         try:
@@ -14,4 +18,6 @@ class ArticlesRequestValidator:
         try:
             data['endDate']
         except:
-            data['endDate'] =
+            data['endDate'] = today()
+
+        return data
