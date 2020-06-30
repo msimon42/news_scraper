@@ -13,7 +13,10 @@ def remove_spaces_from_beginning_str(str):
 
         return str
     except:
-        return str    
+        return str
+
+def today():
+    return datetime.now().strftime('%m-%d-%y')          
 
 def do_nothing():
     pass
