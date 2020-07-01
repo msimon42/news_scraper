@@ -42,3 +42,11 @@ class TestArticlesRequestValidator:
                                                         'endDate':today(),
                                                         'amount':0
                                                     }
+
+
+        def test_valid_amount(self):
+            assert self.validator.valid_amount(12)
+            assert not self.validator.valid_amount(3)
+            assert not self.validator.valid_amount(187)
+            assert self.validator.valid_amount(10)
+            assert self.validator.valid_amount(100)                                            
