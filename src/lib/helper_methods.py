@@ -19,7 +19,10 @@ def today():
     return datetime.now().strftime('%m-%d-%y')
 
 def current_year():
-    return datetime.now().year              
+    return datetime.now().year
+
+def convert_to_date(string):
+    return datetime.strptime(string, '%m-%d-%y')               
 
 def do_nothing():
     pass
