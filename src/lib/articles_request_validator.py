@@ -7,14 +7,24 @@ class ArticlesRequestValidator:
     @classmethod
     def validate(cls, data):
         validator = cls()
-        preprocessed_data = validator.__preprocess(data)
+        preprocessed_data = validator.preprocess(data)
 
-    def __preprocess(self, data):
+        all_checks_valid = all([
+            validator.valid_amount(data['amount']),
+            validator.valid_date(data['startDate']),
+            validator.valid_date(data['endDate']),
+        ])
+
+        if all_checks_valid:
+            return preprocessed_data
+
+
+    def preprocess(self, data):
         valid_keys = ['keywords', 'endDate', 'startDate', 'amount']
 
         data.setdefault('keywords', '')
         data.setdefault('endDate', today())
-        data.setdefault('startDate', '')
+        data.setdefault('startDate', '12-31-2019')
         data.setdefault('amount', 0)
 
         for k, v in data:
@@ -23,10 +33,10 @@ class ArticlesRequestValidator:
 
         return data
 
-    def __valid_amount(self, data):
+    def valid_amount(self, data):
         return data >= 10 or data <= 100
 
-    def __valid_date(self, data):
+    def valid_date(self, data):
         contains_dashes = '-' in data
         values = data.split('-')
         proper_format = len(values)==3
@@ -38,4 +48,7 @@ class ArticlesRequestValidator:
         except:
             return False
 
-        return all([contains_dashes, proper_format, valid_month, valid_day, valid_year])        
+        return all([contains_dashes, proper_format, valid_month, valid_day, valid_year])
+
+    def proper_date_input(self, start_date, end_date):
+        return convert_to_date(start_date) <= convert_to_date(end_date)
