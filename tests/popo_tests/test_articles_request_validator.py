@@ -60,4 +60,15 @@ class TestArticlesRequestValidator:
             assert not self.validator.valid_date('0831-2020')
             assert not self.validator.valid_date('08312020')
             assert self.validator.valid_date('06-30-2020')
-            assert self.validator.valid_date('07-14-2020')   
+            assert self.validator.valid_date('07-14-2020')
+
+
+        def test_valid_date_input(self):
+            date_1 = '06-30-2020'
+            date_2 = '05-23-2020'
+            date_3 = '04-16-2020'
+
+            assert self.validator.proper_date_input(date_2, date_2)
+            assert self.validator.proper_date_input(date_2, date_1)
+            assert not self.validator.proper_date_input(date_1, date_2)
+            assert not self.validator.proper_date_input(date_1, date_3)
