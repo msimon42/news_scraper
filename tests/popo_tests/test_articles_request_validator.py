@@ -1,4 +1,5 @@
 from src.lib.articles_request_validator import ArticlesRequestValidator
+from src.lib.helper_methods import *
 
 class TestArticlesRequestValidator:
     def setup(self):
