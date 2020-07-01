@@ -49,4 +49,15 @@ class TestArticlesRequestValidator:
             assert not self.validator.valid_amount(3)
             assert not self.validator.valid_amount(187)
             assert self.validator.valid_amount(10)
-            assert self.validator.valid_amount(100)                                            
+            assert self.validator.valid_amount(100)
+
+
+        def test_valid_date(self):
+            assert not self.validator.valid_date('12-31-2019')
+            assert not self.validator.valid_date('12-31-20200')
+            assert not self.validator.valid_date('13-22-2020')
+            assert not self.validator.valid_date('08-42-2020')
+            assert not self.validator.valid_date('0831-2020')
+            assert not self.validator.valid_date('08312020')
+            assert self.validator.valid_date('06-30-2020')
+            assert self.validator.valid_date('07-14-2020')   
