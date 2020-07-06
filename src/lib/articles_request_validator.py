@@ -27,7 +27,7 @@ class ArticlesRequestValidator:
         data.setdefault('startDate', '12-31-2019')
         data.setdefault('amount', 0)
 
-        for k, v in data:
+        for k in data:
             if k not in valid_keys:
                 data[k] = None
 
