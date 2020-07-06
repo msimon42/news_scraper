@@ -3,7 +3,7 @@ from src.lib.helper_methods import *
 
 class TestArticlesRequestValidator:
     def setup(self):
-        validator = ArticlesRequestValidator()
+        self.validator = ArticlesRequestValidator()
 
     def test_preprocess(self):
         data_1 = {
