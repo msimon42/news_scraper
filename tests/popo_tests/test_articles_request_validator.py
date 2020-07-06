@@ -44,31 +44,31 @@ class TestArticlesRequestValidator:
                                                     }
 
 
-        def test_valid_amount(self):
-            assert self.validator.valid_amount(12)
-            assert not self.validator.valid_amount(3)
-            assert not self.validator.valid_amount(187)
-            assert self.validator.valid_amount(10)
-            assert self.validator.valid_amount(100)
+    def test_valid_amount(self):
+        assert self.validator.valid_amount(12)
+        assert not self.validator.valid_amount(3)
+        assert not self.validator.valid_amount(187)
+        assert self.validator.valid_amount(10)
+        assert self.validator.valid_amount(100)
 
 
-        def test_valid_date(self):
-            assert not self.validator.valid_date('12-31-2019')
-            assert not self.validator.valid_date('12-31-20200')
-            assert not self.validator.valid_date('13-22-2020')
-            assert not self.validator.valid_date('08-42-2020')
-            assert not self.validator.valid_date('0831-2020')
-            assert not self.validator.valid_date('08312020')
-            assert self.validator.valid_date('06-30-2020')
-            assert self.validator.valid_date('07-14-2020')
+    def test_valid_date(self):
+        assert not self.validator.valid_date('12-31-2019')
+        assert not self.validator.valid_date('12-31-20200')
+        assert not self.validator.valid_date('13-22-2020')
+        assert not self.validator.valid_date('08-42-2020')
+        assert not self.validator.valid_date('0831-2020')
+        assert not self.validator.valid_date('08312020')
+        assert self.validator.valid_date('06-30-2020')
+        assert self.validator.valid_date('07-14-2020')
 
 
-        def test_valid_date_input(self):
-            date_1 = '06-30-2020'
-            date_2 = '05-23-2020'
-            date_3 = '04-16-2020'
+    def test_valid_date_input(self):
+        date_1 = '06-30-2020'
+        date_2 = '05-23-2020'
+        date_3 = '04-16-2020'
 
-            assert self.validator.proper_date_input(date_2, date_2)
-            assert self.validator.proper_date_input(date_2, date_1)
-            assert not self.validator.proper_date_input(date_1, date_2)
-            assert not self.validator.proper_date_input(date_1, date_3)
+        assert self.validator.proper_date_input(date_2, date_2)
+        assert self.validator.proper_date_input(date_2, date_1)
+        assert not self.validator.proper_date_input(date_1, date_2)
+        assert not self.validator.proper_date_input(date_1, date_3)
