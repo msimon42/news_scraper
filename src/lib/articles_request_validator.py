@@ -40,11 +40,11 @@ class ArticlesRequestValidator:
         contains_dashes = '-' in data
         values = data.split('-')
         proper_format = len(values)==3
-
+    
         try:
-            valid_month = (Float(values[0]) > 0 and Float(values[0]) <= 12)
-            valid_day = (Float(values[1]) > 0 and Float(values[1]) <= 31)
-            valid_year = (Float(values[2]) >= 2020 and Float(values[2]) <= Float(current_year()))
+            valid_month = (int(values[0]) > 0 and int(values[0]) <= 12)
+            valid_day = (int(values[1]) > 0 and int(values[1]) <= 31)
+            valid_year = (int(values[2]) >= 2020 and int(values[2]) <= int(current_year()))
         except:
             return False
 
