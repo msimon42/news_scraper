@@ -34,7 +34,6 @@ class ArticlesRequestValidator:
         return data
 
     def valid_amount(self, data):
-        breakpoint()
         return data >= 10 and data <= 100
 
     def valid_date(self, data):
