@@ -22,7 +22,7 @@ def current_year():
     return datetime.now().year
 
 def convert_to_date(date_string):
-    return datetime.strptime(date_string, '%m-%d-%y')               
+    return datetime.strptime(date_string, '%m-%d-%Y')
 
 def do_nothing():
     pass
