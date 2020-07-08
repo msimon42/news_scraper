@@ -34,13 +34,14 @@ class ArticlesRequestValidator:
         return data
 
     def valid_amount(self, data):
-        return data >= 10 or data <= 100
+        breakpoint()
+        return data >= 10 and data <= 100
 
     def valid_date(self, data):
         contains_dashes = '-' in data
         values = data.split('-')
         proper_format = len(values)==3
-    
+
         try:
             valid_month = (int(values[0]) > 0 and int(values[0]) <= 12)
             valid_day = (int(values[1]) > 0 and int(values[1]) <= 31)
