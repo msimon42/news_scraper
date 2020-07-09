@@ -16,7 +16,7 @@ class ArticlesRequestValidator:
         ])
 
         if all_checks_valid:
-            return preprocessed_data
+            return validator.postprocess(preprocessed_data)
 
 
     def preprocess(self, data):
@@ -35,7 +35,7 @@ class ArticlesRequestValidator:
 
     def postprocess(self, data):
         data['keywords'] = data['keywords'].split(',')
-        return data    
+        return data
 
     def valid_amount(self, data):
         return data >= 10 and data <= 100
