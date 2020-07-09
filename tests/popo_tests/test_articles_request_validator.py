@@ -72,3 +72,21 @@ class TestArticlesRequestValidator:
         assert self.validator.proper_date_input(date_2, date_1)
         assert not self.validator.proper_date_input(date_1, date_2)
         assert not self.validator.proper_date_input(date_1, date_3)
+
+    def test_postprocess(self):
+        data_1 = {
+            'keywords':'trump,corona',
+            'startDate':'06-01-2020',
+            'endDate':'06-15-2020',
+            'amount':10
+        }
+
+        data_2 = {
+            'keywords':''
+        }
+
+        postprocessed_data_1 = self.validator.postprocess(data_1)
+        postprocessed_data_2 = self.validator.postprocess(data_2)
+        breakpoint()
+        assert postprocessed_data_1['keywords'] == ['trump', 'corona']
+        assert postprocessed_data_2['keywords'] == ['']
