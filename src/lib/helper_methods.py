@@ -24,5 +24,8 @@ def current_year():
 def convert_to_date(date_string):
     return datetime.strptime(date_string, '%m-%d-%Y')
 
+def convert_to_sql_like(phrase, column):
+    return f'{column} LIKE %{phrase}%'    
+
 def do_nothing():
     pass
