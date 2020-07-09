@@ -4,6 +4,7 @@ from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 from celery import Celery
 from src.lib.article_serializer import ArticleSerializer
+from src.lib.articles_request_validator import ArticlesRequestValidator
 from src.forms import *
 from dotenv import load_dotenv
 import os
