@@ -208,6 +208,5 @@ from src.mailers import *
 from tasks import *
 from src.lib.scraper import Scraper
 
-
 if __name__ == '__main__':
     application.run(host='0.0.0.0')
