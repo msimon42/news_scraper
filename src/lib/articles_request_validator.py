@@ -33,6 +33,10 @@ class ArticlesRequestValidator:
 
         return data
 
+    def postprocess(self, data):
+        data['keywords'] = data['keywords'].split(',')
+        return data    
+
     def valid_amount(self, data):
         return data >= 10 and data <= 100
 
