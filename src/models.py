@@ -155,6 +155,23 @@ class Article(db.Model):
         cutoff = n_days_ago(days)
         return cls.query.filter(cls.created_at>=cutoff)
 
+    @classmethod
+    def api_query(cls, request_data):
+        joined_keyword_filters = ''
+        if request_data['keywords']:
+            keyword_filters = [ convert_to_sql_like(word, 'articles') for word in request_data['keywords'] ]
+            joined_keyword_filters = ' OR '.join(keyword_filters) + ' AND '
+
+        articles = db.engine.execute(
+            'SELECT * FROM articles ' +
+            f'WHERE {joined_keyword_filters}' +
+            f'created_at > {request_data['startDate']} ' +
+            f'AND created_at <= {request_data['endDate']} ' +
+            f'LIMIT {request_data['amount']}'
+        )
+
+        return articles
+
     def __repr__(self):
         return 'Article %r' % self.headline
 
