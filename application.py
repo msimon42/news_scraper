@@ -99,7 +99,13 @@ def create_application(test_config=None):
     @application.route('/api/request-articles', methods=['POST'])
     def request_articles():
         data = request.json
-            
+        validated_request = ArticlesRequestValidator.validate(data)
+
+        if validated_request is not None:
+            articles = Article.api_query(validated_request)
+            return ArticleSerializer.render_json(articles)
+
+        return jsonify('Invalid request. Please read the docs and try again.'), 400
 
 
 
