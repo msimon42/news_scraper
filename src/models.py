@@ -159,7 +159,7 @@ class Article(db.Model):
     def api_query(cls, request_data):
         joined_keyword_filters = ''
         if request_data['keywords']:
-            keyword_filters = [ convert_to_sql_like(word, 'articles') for word in request_data['keywords'] ]
+            keyword_filters = [ convert_to_sql_like(word, 'headline') for word in request_data['keywords'] ]
             joined_keyword_filters = ' OR '.join(keyword_filters) + ' AND '
 
         articles = db.engine.execute(
