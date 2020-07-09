@@ -165,9 +165,9 @@ class Article(db.Model):
         articles = db.engine.execute(
             'SELECT * FROM articles ' +
             f'WHERE {joined_keyword_filters}' +
-            f'created_at > {request_data['startDate']} ' +
-            f'AND created_at <= {request_data['endDate']} ' +
-            f'LIMIT {request_data['amount']}'
+            f'created_at > {request_data["startDate"]} ' +
+            f'AND created_at <= {request_data["endDate"]} ' +
+            f'LIMIT {request_data["amount"]}'
         )
 
         return articles
