@@ -8,4 +8,8 @@ class ArticleSerializer:
 
     @classmethod
     def convert_article_to_dict(cls, article):
-        return {'headline':article.headline, 'link':article.link}
+        return {
+                'headline': article.headline,
+                'link': article.link,
+                'date': article.created_at
+               }
