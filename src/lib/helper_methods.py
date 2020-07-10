@@ -16,7 +16,7 @@ def remove_spaces_from_beginning_str(str):
         return str
 
 def today():
-    return datetime.now().strftime('%m-%d-%y')
+    return datetime.now().strftime('%m-%d-%Y')
 
 def current_year():
     return datetime.now().year
@@ -25,7 +25,7 @@ def convert_to_date(date_string):
     return datetime.strptime(date_string, '%m-%d-%Y')
 
 def convert_to_sql_like(phrase, column):
-    return f'{column} LIKE %{phrase}%'    
+    return f"{column} LIKE '%%{phrase}%%'"
 
 def do_nothing():
     pass
