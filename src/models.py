@@ -161,12 +161,12 @@ class Article(db.Model):
         if request_data['keywords']:
             keyword_filters = [ convert_to_sql_like(word, 'headline') for word in request_data['keywords'] ]
             joined_keyword_filters = ' OR '.join(keyword_filters) + ' AND '
-
+    
         articles = db.engine.execute(
             'SELECT * FROM articles ' +
-            f'WHERE {joined_keyword_filters}' +
-            f'created_at > {request_data["startDate"]} ' +
-            f'AND created_at <= {request_data["endDate"]} ' +
+            f"WHERE {joined_keyword_filters}" +
+            f"created_at > '{request_data['startDate']}'"  +
+            f"AND created_at <= '{request_data['endDate']}'"  +
             f'LIMIT {request_data["amount"]}'
         )
 
