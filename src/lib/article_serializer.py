@@ -10,6 +10,6 @@ class ArticleSerializer:
     def convert_article_to_dict(cls, article):
         return {
                 'headline': article.headline,
-                'link': article.link,
+                'url': article.url,
                 'date': article.created_at
                }
