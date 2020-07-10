@@ -4,6 +4,7 @@ from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 from celery import Celery
 from src.lib.article_serializer import ArticleSerializer
+from src.lib.articles_request_validator import ArticlesRequestValidator
 from src.forms import *
 from dotenv import load_dotenv
 import os
@@ -89,13 +90,26 @@ def create_application(test_config=None):
         return render_template('dashboard.html', form=form)
 
 
+    @application.route('/api/scrape-articles', methods=['POST'])
+    def scrape_articles():
+        data = request.json
+        articles = Scraper.get_articles(data['url'], data['css-tag'])
+        return ArticleSerializer.render_json(articles)
 
 
     @application.route('/api/request-articles', methods=['POST'])
     def request_articles():
         data = request.json
-        articles = Scraper.get_articles(data['url'], data['css-tag'])
-        return ArticleSerializer.render_json(articles)
+        validated_request = ArticlesRequestValidator.validate(data)
+
+        if validated_request is not None:
+            articles = Article.api_query(validated_request)
+            return ArticleSerializer.render_json(articles)
+
+        return jsonify('Invalid request. Please read the docs and try again.'), 400
+
+
+
 
     ## HELPER METHODS ##
 
@@ -193,7 +207,6 @@ from src.models import *
 from src.mailers import *
 from tasks import *
 from src.lib.scraper import Scraper
-
 
 if __name__ == '__main__':
     application.run(host='0.0.0.0')

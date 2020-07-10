@@ -1,9 +1,9 @@
 from .link_processor import LinkProcessor
 
 class ArticleObj:
-    def __init__(self, headline, link):
+    def __init__(self, headline, url):
         self.headline = headline
-        self.link = link
+        self.url = url
 
     @classmethod
     def create_article_objects(cls, link_elements):
