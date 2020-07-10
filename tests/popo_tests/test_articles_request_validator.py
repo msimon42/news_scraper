@@ -87,6 +87,6 @@ class TestArticlesRequestValidator:
 
         postprocessed_data_1 = self.validator.postprocess(data_1)
         postprocessed_data_2 = self.validator.postprocess(data_2)
-        breakpoint()
+
         assert postprocessed_data_1['keywords'] == ['trump', 'corona']
         assert postprocessed_data_2['keywords'] == ['']
