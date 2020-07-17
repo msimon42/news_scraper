@@ -91,11 +91,16 @@ def create_application(test_config=None):
         return render_template('dashboard.html', form=form)
 
 
-    @application.route('/api/v1/scrape-articles', methods=['GET'])
+    @application.route('/api/v1/scrape-articles', methods=['POST'])
     def scrape_articles():
-        data = request.json
-        articles = Scraper.get_articles(data['url'], data['css-tag'])
-        return ArticleSerializer.render_json(articles)
+        data = request.get_json(force=True)
+
+        if Scraper.ping(data['url']) == 200:
+            tag = CssFinder().find_tag(data['url'])
+            articles = Scraper().get_articles(data['url'], tag)
+            return ArticleSerializer.render_json(articles)
+
+        return jsonify('Invalid URL'), 400    
 
 
     @application.route('/api/v1/articles', methods=['POST'])
