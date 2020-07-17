@@ -8,6 +8,7 @@ from src.lib.articles_request_validator import ArticlesRequestValidator
 from src.forms import *
 from dotenv import load_dotenv
 import os
+import json
 import numpy as np
 
 
@@ -97,9 +98,9 @@ def create_application(test_config=None):
         return ArticleSerializer.render_json(articles)
 
 
-    @application.route('/api/v1/articles', methods=['GET'])
+    @application.route('/api/v1/articles', methods=['POST'])
     def request_articles():
-        data = request.json
+        data = json.load(request.json)
         validated_request = ArticlesRequestValidator.validate(data)
 
         if validated_request is not None:
