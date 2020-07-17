@@ -100,7 +100,7 @@ def create_application(test_config=None):
 
     @application.route('/api/v1/articles', methods=['POST'])
     def request_articles():
-        data = json.load(request.json)
+        data = request.get_json(force=True)
         validated_request = ArticlesRequestValidator.validate(data)
 
         if validated_request is not None:
