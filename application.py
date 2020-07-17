@@ -90,14 +90,14 @@ def create_application(test_config=None):
         return render_template('dashboard.html', form=form)
 
 
-    @application.route('/api/scrape-articles', methods=['POST'])
+    @application.route('/api/v1/scrape-articles', methods=['POST'])
     def scrape_articles():
         data = request.json
         articles = Scraper.get_articles(data['url'], data['css-tag'])
         return ArticleSerializer.render_json(articles)
 
 
-    @application.route('/api/request-articles', methods=['POST'])
+    @application.route('/api/v1/articles', methods=['POST'])
     def request_articles():
         data = request.json
         validated_request = ArticlesRequestValidator.validate(data)
