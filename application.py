@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, flash
+from flask import Flask, request, render_template, redirect, flash, jsonify
 from flask_mail import Mail, Message
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
@@ -90,14 +90,14 @@ def create_application(test_config=None):
         return render_template('dashboard.html', form=form)
 
 
-    @application.route('/api/v1/scrape-articles', methods=['POST'])
+    @application.route('/api/v1/scrape-articles', methods=['GET'])
     def scrape_articles():
         data = request.json
         articles = Scraper.get_articles(data['url'], data['css-tag'])
         return ArticleSerializer.render_json(articles)
 
 
-    @application.route('/api/v1/articles', methods=['POST'])
+    @application.route('/api/v1/articles', methods=['GET'])
     def request_articles():
         data = request.json
         validated_request = ArticlesRequestValidator.validate(data)
