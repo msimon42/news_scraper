@@ -29,7 +29,7 @@ class Scraper:
     def __filter_and_convert_link_element(self, link_element, url):
         article_link = LinkProcessor.process(link_element.get('href'), url)
         if self.nlp.is_sentence(link_element.text):
-            return ArticleObj(link_element.text, article_link)
+            return ArticleObj(self.nlp.preprocess_phrase(link_element.text), article_link)
 
     @classmethod
     def ping(cls, url):
