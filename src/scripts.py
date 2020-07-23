@@ -12,22 +12,22 @@ class GetArticles(Command):
 
     def run(self):
         links = Link.with_valid_css_tag()
-
+        scraper = Scraper()
         for link in links:
             try:
                 user_agent = UserAgent.random_user_agent_header()
-                articles = Scraper().get_articles(link.url, link.css_tag, user_agent=user_agent, save=False)
-                for article in articles:
-                    exists = Article.query.filter_by(url=article.url).scalar()
-                    if exists is None:
-                        new_article = Article(link_id=link.id,
-                                              url=article.url,
-                                              headline=article.headline)
-
-                        db.session.add(new_article)
-                        db.session.commit()
-                    else:
-                        continue
+                articles = scraper.get_articles(link.url, link.css_tag, user_agent=user_agent, save=True, link_id=link.id)
+                # for article in articles:
+                #     exists = Article.query.filter_by(url=article.url).scalar()
+                #     if exists is None:
+                #         new_article = Article(link_id=link.id,
+                #                               url=article.url,
+                #                               headline=article.headline)
+                #
+                #         db.session.add(new_article)
+                #         db.session.commit()
+                #     else:
+                #         continue
                 print(f'Articles collected for {link.url}')
             except:
                 print(f'Failed to collect articles for {link.url}. Please contact your systems administrator.')
