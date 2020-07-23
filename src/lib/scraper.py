@@ -9,8 +9,8 @@ class Scraper:
     def __init__(self):
         self.nlp = NLProcessor()
 
-    def get_articles(self, url, css_tag, user_agent=None):
-        headers = user_agent
+    def get_articles(self, url, css_tag, **kwargs):
+        headers = kwargs['user_agent']
         r = requests.get(url, headers=headers).content
         soup = BeautifulSoup(r, 'html.parser')
         articles = soup.find_all(class_=css_tag)
@@ -21,7 +21,7 @@ class Scraper:
                 for link in article_link_elements:
                     article_list.append(self.__filter_and_convert_link_element(link, url))
 
-            elif article.name == 'a': 
+            elif article.name == 'a':
                 article_list.append(self.__filter_and_convert_link_element(article, url))
 
         return remove_null_values(article_list)
@@ -29,7 +29,11 @@ class Scraper:
     def __filter_and_convert_link_element(self, link_element, url):
         article_link = LinkProcessor.process(link_element.get('href'), url)
         if self.nlp.is_sentence(link_element.text):
-            return ArticleObj(self.nlp.preprocess_phrase(link_element.text), article_link)
+            a = ArticleObj(self.nlp.preprocess_phrase(link_element.text), article_link)
+            if kwargs['save'] is True:
+                a.save_to_db(kwargs['link_id'])
+
+            return a
 
     @classmethod
     def ping(cls, url):

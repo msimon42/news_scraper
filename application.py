@@ -97,10 +97,14 @@ def create_application(test_config=None):
 
         if Scraper.ping(data['url']) == 200:
             tag = CssFinder().find_tag(data['url'])
-            articles = Scraper().get_articles(data['url'], tag)
+            link = Link(url=data['url'], css_tag=tag)
+            db.session.add(link)
+            db.session.commit()
+
+            articles = Scraper().get_articles(data['url'], tag, save=True, link_id=link.id, user_agent=None)
             return ArticleSerializer.render_json(articles)
 
-        return jsonify('Invalid URL'), 400    
+        return jsonify('Invalid URL'), 400
 
 
     @application.route('/api/v1/articles', methods=['POST'])
