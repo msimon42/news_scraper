@@ -25,6 +25,7 @@ manager.add_command('fill-tags', FillCssTags())
 manager.add_command('send-articles', SendArticlesToUsers())
 manager.add_command('test-newsletter', TestNewsletter())
 manager.add_command('test-confirmation', TestConfirmationEmail())
+manager.add_command('clean-headlines', CleanArticleHeadlines())
 
 
 if __name__ == '__main__':
