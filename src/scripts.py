@@ -14,7 +14,7 @@ class GetArticles(Command):
         links = Link.with_valid_css_tag()
 
         for link in links:
-            if True:
+            try:
                 user_agent = UserAgent.random_user_agent_header()
                 articles = Scraper().get_articles(link.url, link.css_tag, user_agent)
                 for article in articles:
@@ -29,7 +29,7 @@ class GetArticles(Command):
                     else:
                         continue
                 print(f'Articles collected for {link.url}')
-            else:
+            except:
                 print(f'Failed to collect articles for {link.url}. Please contact your systems administrator.')
 
         print('done')
