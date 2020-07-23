@@ -17,10 +17,10 @@ class GetArticles(Command):
                 user_agent = UserAgent.random_user_agent_header()
                 articles = Scraper().get_articles(link.url, link.css_tag, user_agent)
                 for article in articles:
-                    exists = Article.query.filter_by(url=article.link).scalar()
+                    exists = Article.query.filter_by(url=article.url).scalar()
                     if exists is None:
                         new_article = Article(link_id=link.id,
-                                              url=article.link,
+                                              url=article.url,
                                               headline=article.headline)
 
                         db.session.add(new_article)
@@ -88,5 +88,17 @@ class TestConfirmationEmail(Command):
         email = os.getenv('ADMIN_EMAIL')
         token = os.getenv('ADMIN_TOKEN')
         ConfirmationMailer.send_message(email, token)
+
+        print('Done')
+
+
+class CleanArticleHeadlines(Command):
+    "Removes unnessesary spaces, tabs, and line breaks from article headlines"
+
+    def run(self):
+        articles = Article.query.all()
+
+        for article in articles:
+            article.headline = nlp.preprocess_phrase(article.headline)
 
         print('Done')
