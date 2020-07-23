@@ -4,6 +4,7 @@ from src.models import *
 from src.mailers import *
 from src.lib.css_finder import CssFinder
 from src.lib.scraper import Scraper
+from src.lib.nl_processor import NLProcessor
 import os
 
 class GetArticles(Command):
@@ -96,6 +97,7 @@ class CleanArticleHeadlines(Command):
     "Removes unnessesary spaces, tabs, and line breaks from article headlines"
 
     def run(self):
+        nlp = NLProcessor()
         articles = Article.query.all()
 
         for article in articles:
