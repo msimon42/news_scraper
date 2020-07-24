@@ -7,7 +7,7 @@ class ArticleObj:
         self.url = url
 
     def save_to_db(self, link_id):
-        exists = Article.query.filter_by(url=article.url).scalar()
+        exists = Article.query.filter_by(url=self.url).scalar()
         if exists is None:
             a = Article(link_id=link_id, url=self.url, headline=self.headline)
             db.session.add(a)
