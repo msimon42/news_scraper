@@ -11,6 +11,6 @@ class TestScraper:
         assert response2 == 404
 
     def test_get_articles(self):
-        response = self.scraper.get_articles('https://www.slashdot.org', 'story-title')
+        response = self.scraper.get_articles('https://www.slashdot.org', 'story-title', save=False, link_id=None, user_agent=None)
         assert str(type(response)) == "<class 'list'>"
         assert str(type(response[0])) == "<class 'src.lib.article_obj.ArticleObj'>"
