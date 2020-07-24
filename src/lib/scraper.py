@@ -19,14 +19,14 @@ class Scraper:
             if article.name != 'a':
                 article_link_elements = article.find_all('a')
                 for link in article_link_elements:
-                    article_list.append(self.__filter_and_convert_link_element(link, url))
+                    article_list.append(self.__filter_and_convert_link_element(link, url, save=kwargs['save'], link_id=kwargs['link_id']))
 
             elif article.name == 'a':
-                article_list.append(self.__filter_and_convert_link_element(article, url))
+                article_list.append(self.__filter_and_convert_link_element(article, url, save=kwargs['save'], link_id=kwargs['link_id']))
 
         return remove_null_values(article_list)
 
-    def __filter_and_convert_link_element(self, link_element, url):
+    def __filter_and_convert_link_element(self, link_element, url, **kwargs):
         article_link = LinkProcessor.process(link_element.get('href'), url)
         if self.nlp.is_sentence(link_element.text):
             a = ArticleObj(self.nlp.preprocess_phrase(link_element.text), article_link)
