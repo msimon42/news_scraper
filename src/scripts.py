@@ -5,6 +5,7 @@ from src.mailers import *
 from src.lib.css_finder import CssFinder
 from src.lib.scraper import Scraper
 from src.lib.nl_processor import NLProcessor
+from scr.lib.timer import Timer
 import os
 
 class GetArticles(Command):
