@@ -28,7 +28,7 @@ This endpoint expects a post request containing the following information in the
 
 A properly formatted request body should look like this:
       
-      ```json
+      ```
       {
         "startDate": "06-05-2020",
         "endDate": "06-25-2020",
