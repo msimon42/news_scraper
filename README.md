@@ -22,8 +22,11 @@ The endpoint to retrieve articles from the database is as follows: `https://www.
 
 This endpoint expects a post request containing the following information in the body:
       - The earliest publication date of articles you would like to recieve (required; cannot be earlier than 01-01-2020).
+      
       - The latest publication date of articles you would like to recieve (not required; defaults to current day).
-      - Any keywords the must be contained in the articles' headlines (not required)
+      
+      - Any keywords the must be contained in the articles' headlines (not required).
+      
       - Amount of articles you would like to recieve (required; must be integer from 10-100).
 
 A properly formatted request body should look like this:
