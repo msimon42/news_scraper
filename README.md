@@ -27,6 +27,7 @@ This endpoint expects a post request containing the following information in the
       - Amount of articles you would like to recieve (required; must be integer from 10-100).
 
 A properly formatted request body should look like this:
+      
       ```
       {
         "startDate": "06-05-2020",
