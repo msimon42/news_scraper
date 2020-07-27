@@ -36,6 +36,17 @@ A properly formatted request body should look like this:
         "amount": 20
       }  
       
+#### Scrape Articles 
+
+The endpoint to scrape articles using News Scraper's scraping engine is as follows: `https://www.news-scraper.com/api/v1/scrape-articles`
+
+This endpoint expects a post request containing a url that you would like to scrape. A properly formatted request body should look like this:
+
+     {
+       "url": "https://www.slashdot.org"     
+     }
+     
+     
 
       
       
