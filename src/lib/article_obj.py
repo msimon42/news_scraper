@@ -1,10 +1,12 @@
 from .link_processor import LinkProcessor
 from src.models import *
+from datetime import datetime
 
 class ArticleObj:
     def __init__(self, headline, url):
         self.headline = headline
         self.url = url
+        self.created_at = datetime.now()
 
     def save_to_db(self, link_id):
         exists = Article.query.filter_by(url=self.url).scalar()
