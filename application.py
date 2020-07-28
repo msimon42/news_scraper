@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from celery import Celery
 from src.lib.article_serializer import ArticleSerializer
 from src.lib.articles_request_validator import ArticlesRequestValidator
+from scr.lib.css_finder import CssFinder
 from src.forms import *
 from dotenv import load_dotenv
 import os
