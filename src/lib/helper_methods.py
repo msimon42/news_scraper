@@ -29,3 +29,6 @@ def convert_to_sql_like(phrase, column):
 
 def do_nothing():
     pass
+
+def generate_sql_equals(phrase, column):
+    return f"{column} = {phrase}"    
