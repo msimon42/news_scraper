@@ -64,10 +64,18 @@ class User(db.Model):
         return filter_words
 
     def select_articles_for_today(self, articles):
-        article_ids = self.sent_article_ids(2)
-        links = self.link_ids()
+        article_ids_sql = ' OR NOT '.join([ generate_sql_equals(article_id, 'articles.id') for article_id in self.sent_article_ids(2) ])
+        links_sql = ' OR '.join([ generate_sql_equals(link_id, 'articles.link_id') for link_id in self.link_ids() ])
+        filters_sql = 'AND NOT ' + (' OR NOT '.join([ generate_sql_like(filter, 'articles.headline') for filter in self.filters() ]))
 
-        eligible_articles = [ article for article in articles if article.link_id in links and article.id not in article_ids]
+        eligible_articles = db.engine.execute(
+            'SELECT articles.* FROM articles ' +
+            f'WHERE {links_sql} ' +
+            f'{filters_sql}{article_ids_sql} '
+            f'AND articles.created_at > {n_days_ago(2)}'
+
+        )
+
         try:
             return random.sample(eligible_articles, 10)
         except:
@@ -169,7 +177,7 @@ class Article(db.Model):
             f"AND created_at <= '{request_data['endDate']}' "  +
             f'LIMIT {request_data["amount"]}'
         )
-        
+
         return articles
 
     def __repr__(self):
