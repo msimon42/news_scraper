@@ -59,12 +59,11 @@ class SendArticlesToUsers(Command):
     "Sends articles to users"
 
     def run(self):
-        articles = Article.from_n_days_ago(2)
         users = User.confirmed_users()
         t = Timer()
 
         for user in users:
-            user_articles = user.select_articles_for_today(articles)
+            user_articles = user.select_articles_for_today()
             ArticlesMailer.send_message(user, user_articles)
             user.add_sent_articles(user_articles)
             et = t.stop()
@@ -77,9 +76,8 @@ class TestNewsletter(Command):
     "Sends a test newsletter"
 
     def run(self):
-        articles = Article.from_n_days_ago(2)
         user = User.query.get(18)
-        user_articles = user.select_articles_for_today(articles)
+        user_articles = user.select_articles_for_today()
         ArticlesMailer.send_message(user, user_articles)
 
         print('Done')
