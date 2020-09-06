@@ -72,7 +72,7 @@ class User(db.Model):
             'SELECT articles.* FROM articles ' +
             f'WHERE {links_sql} ' +
             f'{filters_sql}{article_ids_sql} '
-            f'AND articles.created_at > {n_days_ago(2)}'
+            f"AND articles.created_at > '{n_days_ago(2)}'"
 
         )
 
