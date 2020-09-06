@@ -75,7 +75,7 @@ class User(db.Model):
             f"AND created_at >= '{n_days_ago(2)}'"
 
         )
-        breakpoint()
+        
         try:
             return random.sample(eligible_articles, 10)
         except:
