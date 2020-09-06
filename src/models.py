@@ -66,7 +66,7 @@ class User(db.Model):
     def select_articles_for_today(self):
         article_ids_sql = ' OR NOT '.join([ generate_sql_equals(article_id, 'articles.id') for article_id in self.sent_article_ids(2) ])
         links_sql = ' OR '.join([ generate_sql_equals(link_id, 'articles.link_id') for link_id in self.link_ids() ])
-        filters_sql = 'AND NOT ' + (' OR NOT '.join([ generate_sql_like(filter, 'articles.headline') for filter in self.filters() ]))
+        filters_sql = 'AND NOT ' + (' AND NOT '.join([ generate_sql_like(filter, 'articles.headline') for filter in self.filters() ]))
 
         eligible_articles = db.engine.execute(
             'SELECT articles.* FROM articles ' +
