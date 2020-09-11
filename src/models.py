@@ -75,9 +75,9 @@ class User(db.Model):
             f'{filters_sql}{article_ids_sql} '
             f"AND articles.created_at >= '{n_days_ago(2)}'"
         )
-        
+
         try:
-            return random.sample(eligible_articles, 10)
+            return random.sample(list(eligible_articles), 10)
         except:
             return eligible_articles
 
