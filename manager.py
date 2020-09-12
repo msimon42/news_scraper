@@ -16,7 +16,9 @@ def make_shell_context():
                 UserSubscription=UserSubscription,
                 Article=Article,
                 SentArticle=SentArticle,
-                UserAgent=UserAgent)
+                UserAgent=UserAgent,
+                Filter=Filter,
+                UserFilter=UserFilter)
 
 manager.add_command('db', MigrateCommand)
 manager.add_command('shell', Shell(make_context=make_shell_context))
