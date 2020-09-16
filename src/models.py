@@ -64,15 +64,15 @@ class User(db.Model):
         return filter_words
 
     def select_articles_for_today(self):
-        article_ids_sql = ' AND NOT '.join([ generate_sql_equals(article_id, 'articles.id') for article_id in self.sent_article_ids(2) ])
+        article_ids_sql = [ generate_sql_equals(article_id, 'articles.id') for article_id in self.sent_article_ids(2) ]
         links_sql = ' OR '.join([ generate_sql_equals(link_id, 'articles.link_id') for link_id in self.link_ids() ])
-        filters_sql = 'AND NOT ' + (' AND NOT '.join([ generate_sql_like(filter, 'articles.headline') for filter in self.filters() ]))
+        filters_sql = [ convert_to_sql_like(filter, 'articles.headline') for filter in self.filters() ]
 
         eligible_articles = db.engine.execute(
             'SELECT articles.*, links.url AS news_site FROM articles ' +
             'INNER JOIN links ON articles.link_id = links.id '
             f'WHERE ({links_sql}) ' +
-            f'{filters_sql}{article_ids_sql} '
+            f'{filters_sql} {article_ids_sql} '
             f"AND articles.created_at >= '{n_days_ago(2)}'"
         )
 
