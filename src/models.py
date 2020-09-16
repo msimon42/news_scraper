@@ -63,14 +63,23 @@ class User(db.Model):
         filter_words = [ filter.word for filter in result ]
         return filter_words
 
-    def select_articles_for_today(self, articles):
-        article_ids = self.sent_article_ids(2)
-        links = self.link_ids()
+    def select_articles_for_today(self):
+        article_ids_sql = [ generate_sql_equals(article_id, 'articles.id') for article_id in self.sent_article_ids(2) ]
+        links_sql = ' OR '.join([ generate_sql_equals(link_id, 'articles.link_id') for link_id in self.link_ids() ])
+        filters_sql = [ convert_to_sql_like(filter, 'articles.headline') for filter in self.filters() ]
+        combined_filters = ' AND NOT '.join([*article_ids_sql, *filters_sql])
 
-        eligible_articles = [ article for article in articles if article.link_id in links and article.id not in article_ids]
+        eligible_articles = list(db.engine.execute(
+            'SELECT articles.*, links.url AS news_site FROM articles ' +
+            'INNER JOIN links ON articles.link_id = links.id '
+            f'WHERE ({links_sql}) ' +
+            f'AND NOT {combined_filters} '
+            f"AND articles.created_at >= '{n_days_ago(2)}'"
+        ))
+        
         try:
             return random.sample(eligible_articles, 10)
-        except:
+        except ValueError:
             return eligible_articles
 
     def not_yet_sent(self, article_id):
@@ -169,7 +178,7 @@ class Article(db.Model):
             f"AND created_at <= '{request_data['endDate']}' "  +
             f'LIMIT {request_data["amount"]}'
         )
-        
+
         return articles
 
     def __repr__(self):
