@@ -87,6 +87,7 @@ def create_application(test_config=None):
             }
 
             update_user(user, form_data)
+            return redirect(f'/dashboard?token={user.token}')
 
         return render_template('dashboard.html', form=form)
 
