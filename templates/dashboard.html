@@ -2,7 +2,7 @@
 {% block body %}
 <div class="full-screen">
   <span id='sub-form'>
-  <form method='POST' action='' >
+  <form method='POST' action='/update' >
     {{ form.hidden_tag() }}
       <legend>
         Update the values in this form to change your email address and subscription preferences.
@@ -18,6 +18,9 @@
       <div class='formfield'>
         {{ form.filters.label }}
         {{ form.filters(placeholder='coronavirus,trump, etc.') }}
+      </div>
+      <div>
+        {{ form.user_token }}
       </div>
       <div id='button-div'>
         {{ form.update(class_='button-line', id='submit-button') }}
