@@ -79,17 +79,20 @@ def create_application(test_config=None):
         form.links.data = ','.join(user.link_urls())
         form.filters.data = ','.join(user.filters())
 
-        if form.validate_on_submit():
-            form_data = {
-                'email': request.form['email'],
-                'links': request.form['links'],
-                'filters': request.form['filters']
-            }
-
-            update_user(user, form_data)
-            return redirect(f'/dashboard?token={user.token}')
-
         return render_template('dashboard.html', form=form)
+
+    @application.route('/update/<token>', methods=['POST'])
+    def update():
+       form_data = {
+            'email': request.form['email'],
+            'links': request.form['links'],
+            'filters': request.form['filters']
+        }
+       update_user(user, form_data)
+
+       return redirect(f'/dashboard?token={user.token}')
+
+       return render_template('dashboard.html', form=form)
 
 
     @application.route('/api/v1/scrape-articles', methods=['POST'])
