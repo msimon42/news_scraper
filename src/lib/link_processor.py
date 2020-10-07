@@ -1,4 +1,4 @@
-
+from .helper_methods import *
 
 class LinkProcessor:
     @classmethod
