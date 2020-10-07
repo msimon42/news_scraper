@@ -3,7 +3,6 @@ from .helper_methods import *
 class LinkProcessor:
     @classmethod
     def process(cls, link, url):
-        breakpoint()
         if link[0:2] == '//':
             return link.replace('//', 'https://')
         elif link[0:4] == 'http':
