@@ -1,6 +1,9 @@
+
+
 class LinkProcessor:
     @classmethod
     def process(cls, link, url):
+        breakpoint()
         if link[0:2] == '//':
             return link.replace('//', 'https://')
         elif link[0:4] == 'http':
@@ -10,6 +13,7 @@ class LinkProcessor:
 
     @classmethod
     def trunicate_url(cls, url):
+        url = remove_spaces_from_beginning_str(url)
         endpos = url[8:].find('/')
         if endpos > -1:
             return url[0:(endpos + 8)]
