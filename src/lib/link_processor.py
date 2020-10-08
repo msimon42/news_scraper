@@ -1,3 +1,5 @@
+from .helper_methods import *
+
 class LinkProcessor:
     @classmethod
     def process(cls, link, url):
@@ -10,6 +12,7 @@ class LinkProcessor:
 
     @classmethod
     def trunicate_url(cls, url):
+        url = remove_spaces_from_beginning_str(url)
         endpos = url[8:].find('/')
         if endpos > -1:
             return url[0:(endpos + 8)]

@@ -78,17 +78,23 @@ def create_application(test_config=None):
         form.email.data = user.email
         form.links.data = ','.join(user.link_urls())
         form.filters.data = ','.join(user.filters())
-
-        if form.validate_on_submit():
-            form_data = {
-                'email': request.form['email'],
-                'links': request.form['links'],
-                'filters': request.form['filters']
-            }
-
-            update_user(user, form_data)
+        form.user_token.data = user.token
 
         return render_template('dashboard.html', form=form)
+
+    @application.route('/update', methods=['POST'])
+    def update():
+       form_data = {
+            'email': request.form['email'],
+            'links': request.form['links'],
+            'filters': request.form['filters']
+        }
+
+       user = User.find_by_token(request.form['user_token'])
+       update_user(user, form_data)
+       return redirect(f'/dashboard?token={user.token}')
+
+
 
 
     @application.route('/api/v1/scrape-articles', methods=['POST'])
@@ -170,7 +176,7 @@ def create_application(test_config=None):
                 db.session.commit()
 
         for filter in removed_filters:
-            filter_ = filter.find_by_word(filter)
+            filter_ = Filter.find_by_word(filter)
             user_filter = UserFilter.query.filter_by(user_id=user.id, filter_id=filter_.id).scalar()
             db.session.delete(user_filter)
             db.session.commit()
