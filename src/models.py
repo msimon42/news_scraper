@@ -76,7 +76,7 @@ class User(db.Model):
             f'AND NOT {combined_filters} '
             f"AND articles.created_at >= '{n_days_ago(2)}'"
         ))
-        
+
         try:
             return random.sample(eligible_articles, 10)
         except ValueError:
@@ -95,6 +95,7 @@ class User(db.Model):
     def update_email(self, new_email):
         self.email = new_email
         db.session.commit()
+        return f'Your email was changed to {new_email}.'
 
     def __repr__(self):
         return 'User %r' % self.id
