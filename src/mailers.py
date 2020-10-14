@@ -5,7 +5,7 @@ from flask_mail import Message
 class ConfirmationMailer:
     @classmethod
     def send_message(cls, recipient_email, recipient_token):
-        message = Message('News Scraper -- Confirm your email address',
+        message = Message('News Scraper -- Confirm your Subscription',
                            recipients=[recipient_email],
                            sender='confirm@news-scraper.com')
 
@@ -21,3 +21,17 @@ class ArticlesMailer:
 
         message.html = render_template('mail_templates/daily_articles.html', uid=recipient.token, articles=articles)
         mail.send(message)
+
+class UpdateMailer:
+    @classmethod
+    def send_message(cls, recipient_email, recipient_token, **kwargs):
+        message = Message(
+                'Your Subscription Update',
+                recipients=[recipient.email],
+                sender='noreply@news-scraper.com'
+        )
+
+        message.html = render_template('mail_templates/update.html', uid=recipient_token,
+                    link_actions=kwargs['link_actions'], email_actions=kwargs['email_actions'], filter_actions=kwargs['filter_actionss'])
+
+        mail.send(message)            
