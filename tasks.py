@@ -1,6 +1,7 @@
 from celery import Celery
 from application import application
 from src.mailers import *
+from src.models import *
 import os
 
 def make_celery(app):
@@ -20,12 +21,45 @@ def make_celery(app):
 
 celery = make_celery(application)
 
+
+
+## Helper Methds ##
+@celery.task(name='tasks.subscription_attempt')
+def subscription_attempt(link, user_token):
+    status_code = Scraper.ping(link)
+    if status_code == 200:
+        new_link = Link(url=link)
+        db.session.add(new_link)
+        db.session.commit()
+        us = UserSubscription(link_id=new_link.id, user_id=user.id)
+        db.session.add(us)
+        db.session.commit()
+        return f'Subscribed to {link}'
+    else:
+        return f'Could not subscribe to {link}. It is possible that this site blocks web scraping.'
+
+
+
 @celery.task(name='tasks.send_confirmation_email')
 def send_confirmation_email(recip_email, recip_token):
     ConfirmationMailer.send_message(recip_email, recip_token)
 
-@celery.task(name='tasks.update_links')
-def update_links():
+
+@celery.task(name='tasks.update_user')
+def update_user(user_id, form_data):
+    user = User.query.get(user_id)
+    actions = []
+
+    actions.append(update_links(user, form_data['links']))
+    actions.append(update_email(user, form_data['email'])[user.email == form_data['email']])
+    actions.append(update_filters(user, form_data['filters']))
+
+    UpdateMailer.send_message(user.email, user.token, link_actions=actions[0],
+        email_actions=actions[1], filter_actions=actions[2])
+
+
+
+def update_links(links, user):
     links_list = links.split(',')
     user_links = user.link_urls()
     actions = []
@@ -57,20 +91,12 @@ def update_links():
 
     return actions
 
-@celery.task(name='tasks.update_user')
-def update_user(user, form_data):
-    update_links(user, form_data['links'])
-    update_email(user, form_data['email'])[user.email == form_data['email']]
-    update_filters(user, form_data['filters'])
-
-@celery.task(name='tasks.update_email')
 def update_email(user, new_email):
     return {
         False: user.update_email(new_email),
         True: do_nothing()
     }
 
-@celery.task(name='tasks.update_filters')
 def update_filters(user, filters):
     filters = filters.split(',')
     current_filters = user.filters()
@@ -97,3 +123,5 @@ def update_filters(user, filters):
         user_filter = UserFilter.query.filter_by(user_id=user.id, filter_id=filter_.id).scalar()
         db.session.delete(user_filter)
         db.session.commit()
+
+    return {'added':new_filters, 'removed':removed_filters}    
