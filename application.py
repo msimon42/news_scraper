@@ -91,7 +91,7 @@ def create_application(test_config=None):
         }
 
        user_id = User.find_by_token(request.form['user_token']).id
-       update_user.apply_async(user_id, form_data)
+       update_user.apply_async(args=[user_id, form_data])
        return redirect(f'/dashboard?token={user.token}')
 
 
