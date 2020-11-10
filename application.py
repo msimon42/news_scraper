@@ -90,8 +90,8 @@ def create_application(test_config=None):
             'filters': request.form['filters']
         }
 
-       user = User.find_by_token(request.form['user_token'])
-       update_user(user, form_data)
+       user_id = User.find_by_token(request.form['user_token']).id
+       update_user.apply_async(user_id, form_data)
        return redirect(f'/dashboard?token={user.token}')
 
 
@@ -128,20 +128,20 @@ def create_application(test_config=None):
 
 
     ## HELPER METHODS ##
-
-    def subscription_attempt(link, user_token):
-        status_code = Scraper.ping(link)
-        if status_code == 200:
-            new_link = Link(url=link)
-            db.session.add(new_link)
-            db.session.commit()
-            us = UserSubscription(link_id=new_link.id, user_id=user.id)
-            db.session.add(us)
-            db.session.commit()
-            return f'Subscribed to {link}'
-        else:
-            return f'Could not subscribe to {link}. It is possible that this site blocks web scraping.'
-
+    #
+    # def subscription_attempt(link, user_token):
+    #     status_code = Scraper.ping(link)
+    #     if status_code == 200:
+    #         new_link = Link(url=link)
+    #         db.session.add(new_link)
+    #         db.session.commit()
+    #         us = UserSubscription(link_id=new_link.id, user_id=user.id)
+    #         db.session.add(us)
+    #         db.session.commit()
+    #         return f'Subscribed to {link}'
+    #     else:
+    #         return f'Could not subscribe to {link}. It is possible that this site blocks web scraping.'
+    #
 
     # def update_user(user, form_data):
     #     update_links(user, form_data['links'])
