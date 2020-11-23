@@ -53,13 +53,13 @@ def update_user(user_id, form_data):
     actions.append(update_links(user, form_data['links']))
     actions.append(update_email(user, form_data['email'])[user.email == form_data['email']])
     actions.append(update_filters(user, form_data['filters']))
-    
+
     UpdateMailer.send_message(user.email, user.token, link_actions=actions[0],
         email_actions=actions[1], filter_actions=actions[2])
 
 
 
-def update_links(links, user):
+def update_links(user, links):
     links_list = links.split(',')
     user_links = user.link_urls()
     actions = []
