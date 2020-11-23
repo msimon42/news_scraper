@@ -89,9 +89,10 @@ def create_application(test_config=None):
             'links': request.form['links'],
             'filters': request.form['filters']
         }
+
        token = request.form['user_token']
        user = User.find_by_token(request.form['user_token'])
-       update_user.apply_async(args=[user.id, form_data])
+       update_user.delay(user.id, form_data)
        return redirect(f'/dashboard?token={user.token}')
 
 
