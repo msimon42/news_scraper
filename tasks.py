@@ -1,5 +1,6 @@
 from celery import Celery
 from application import application
+import numpy as np
 from src.mailers import *
 from src.models import *
 import os
