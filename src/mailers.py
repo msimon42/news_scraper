@@ -32,6 +32,6 @@ class UpdateMailer:
         )
 
         message.html = render_template('mail_templates/update.html', uid=recipient_token,
-                    link_actions=kwargs['link_actions'], email_actions=kwargs['email_actions'], filter_actions=kwargs['filter_actionss'])
+                    link_actions=kwargs['link_actions'], email_actions=kwargs['email_actions'], filter_actions=kwargs['filter_actions'])
 
         mail.send(message)
