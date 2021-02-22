@@ -27,11 +27,11 @@ class UpdateMailer:
     def send_message(cls, recipient_email, recipient_token, **kwargs):
         message = Message(
                 'Your Subscription Update',
-                recipients=[recipient.email],
+                recipients=[recipient_email],
                 sender='noreply@news-scraper.com'
         )
 
         message.html = render_template('mail_templates/update.html', uid=recipient_token,
                     link_actions=kwargs['link_actions'], email_actions=kwargs['email_actions'], filter_actions=kwargs['filter_actionss'])
 
-        mail.send(message)            
+        mail.send(message)
