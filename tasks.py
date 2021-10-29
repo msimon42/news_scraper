@@ -3,6 +3,7 @@ from application import application
 import numpy as np
 from src.mailers import *
 from src.models import *
+from src.lib.scraper import Scraper
 import os
 
 def make_celery(app):
@@ -22,10 +23,25 @@ def make_celery(app):
 
 celery = make_celery(application)
 
+@celery.task(name='tasks.send_confirmation_email')
+def send_confirmation_email(recip_email, recip_token):
+    ConfirmationMailer.send_message(recip_email, recip_token)
 
 
-## Helper Methds ##
-@celery.task(name='tasks.subscription_attempt')
+@celery.task(name='tasks.update_user')
+def update_user(user_id, form_data):
+    user = User.query.get(user_id)
+    actions = []
+
+    actions.append(update_links(user, form_data['links']))
+    # actions.append(update_email(user, form_data['email'])[user.email == form_data['email']])
+    # actions.append(update_filters(user, form_data['filters']))
+
+    # UpdateMailer.send_message(user.email, user.token, link_actions=actions[0],
+    #     email_actions=actions[1], filter_actions=actions[2])
+
+##HELPER METHODS##
+
 def subscription_attempt(link, user_token):
     status_code = Scraper.ping(link)
     if status_code == 200:
@@ -38,26 +54,6 @@ def subscription_attempt(link, user_token):
         return f'Subscribed to {link}'
     else:
         return f'Could not subscribe to {link}. It is possible that this site blocks web scraping.'
-
-
-
-@celery.task(name='tasks.send_confirmation_email')
-def send_confirmation_email(recip_email, recip_token):
-    ConfirmationMailer.send_message(recip_email, recip_token)
-
-
-@celery.task(name='tasks.update_user')
-def update_user(user_id, form_data):
-    user = User.query.get(user_id)
-    actions = []
-
-    actions.append(update_links(user, form_data['links']))
-    actions.append(update_email(user, form_data['email'])[user.email == form_data['email']])
-    actions.append(update_filters(user, form_data['filters']))
-
-    UpdateMailer.send_message(user.email, user.token, link_actions=actions[0],
-        email_actions=actions[1], filter_actions=actions[2])
-
 
 
 def update_links(user, links):
