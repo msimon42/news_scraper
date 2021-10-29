@@ -124,6 +124,10 @@ def create_application(test_config=None):
 
         return jsonify('Invalid request. Please read the docs and try again.'), 400
 
+    @application.route('/api/ping', methods=['GET'])
+    def ping():
+        return jsonify('You made it!')
+
 
 
 
