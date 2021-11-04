@@ -128,6 +128,12 @@ def create_application(test_config=None):
     def ping():
         return jsonify('You made it!')
 
+    @application.route('/api/v1/user-agent', methods=['GET'])
+    def user_agent():
+        return jsonify(UserAgent.random_user_agent_header())
+
+
+
 
 
 
