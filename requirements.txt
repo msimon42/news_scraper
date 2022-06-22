@@ -49,7 +49,7 @@ Mako==1.1.2
 MarkupSafe==0.23
 more-itertools==8.2.0
 murmurhash==1.0.2
-numpy==1.18.4
+numpy==1.22.0
 packaging==20.3
 paramiko==2.7.1
 pathspec==0.5.9
