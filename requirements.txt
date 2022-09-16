@@ -45,7 +45,7 @@ Jinja2==2.10.1
 jmespath==0.9.5
 jsonschema==3.2.0
 kombu==4.6.8
-Mako==1.1.2
+Mako==1.2.2
 MarkupSafe==0.23
 more-itertools==8.2.0
 murmurhash==1.0.2
